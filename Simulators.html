@@ -1,1 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinVerse Simulators - Advanced Financial Tools</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.sim-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+.sim-header {
+  text-align: center;
+  padding: 30px 20px;
+  background: var(--bg-card);
+  border-radius: 25px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0,255,178,0.2);
+}
+.sim-header h1 {
+  font-size: 2.2rem;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+.sim-header p { color: #94a3b8; line-height: 1.5; }
+.sim-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 5px 0 15px;
+  margin-bottom: 20px;
+  scrollbar-width: thin;
+}
+.sim-tab {
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  transition: all 0.3s;
+  font-weight: 600;
+  font-family: inherit;
+}
+.sim-tab:hover { background: rgba(0,255,178,0.1); }
+.sim-tab.active {
+  background: var(--gradient-1);
+  color: var(--bg-primary);
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(0,255,178,0.3);
+}
+.simulator {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,255,178,0.2);
+  border-radius: 20px;
+  padding: 25px;
+  display: none;
+  animation: fadeIn 0.5s;
+}
+.simulator.active { display: block; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+.sim-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.sim-title-row h2 {
+  color: var(--accent-teal);
+  font-size: 1.4rem;
+}
+.sim-desc-text { color: #94a3b8; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem; }
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.input-single { margin-bottom: 12px; }
+.input-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.input-field:focus {
+  outline: none;
+  border-color: #00ffb2;
+  box-shadow: 0 0 10px rgba(0,255,178,0.2);
+}
+.calc-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--gradient-1);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,255,178,0.4); }
+.output-box {
+  background: rgba(0,255,178,0.05);
+  border: 1px solid rgba(0,255,178,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  display: none;
+}
+.output-box.show { display: block; animation: fadeIn 0.6s; }
+.big-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin: 10px 0;
+}
+.output-label { text-align: center; color: #94a3b8; margin-bottom: 15px; }
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.result-row:last-child { border-bottom: none; }
+.result-row strong { color: #00ffb2; }
+.bar-chart { margin: 20px 0; }
+.bar-item { margin-bottom: 12px; }
+.bar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+.bar-track {
+  height: 25px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: width 1s ease;
+  position: relative;
+  overflow: hidden;
+}
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer { 0%{transform:translateX(-100%);} 100%{transform:translateX(100%);} }
+.insight-box {
+  background: rgba(59,130,246,0.1);
+  border-left: 4px solid #3b82f6;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+}
+.insight-box h4 { color: #3b82f6; margin-bottom: 8px; font-size: 1rem; }
+.insight-box p { color: #e2e8f0; line-height: 1.6; font-size: 0.9rem; }
+.warning-box {
+  background: rgba(251,146,60,0.1);
+  border-left: 4px solid #fb923c;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+}
+.warning-box h4 { color: #fb923c; margin-bottom: 8px; font-size: 1rem; }
+.warning-box p { color: #e2e8f0; line-height: 1.6; font-size: 0.9rem; }
+.danger-box {
+  background: rgba(239,68,68,0.1);
+  border-left: 4px solid #ef4444;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+}
+.danger-box h4 { color: #ef4444; margin-bottom: 8px; font-size: 1rem; }
+.danger-box p { color: #e2e8f0; line-height: 1.6; font-size: 0.9rem; }
+.success-box {
+  background: rgba(0,255,178,0.1);
+  border-left: 4px solid #00ffb2;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+}
+.success-box h4 { color: #00ffb2; margin-bottom: 8px; font-size: 1rem; }
+.success-box p { color: #e2e8f0; line-height: 1.6; font-size: 0.9rem; }
+.age-milestone {
+  background: rgba(0,0,0,0.3);
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.age-milestone strong { color: #00ffb2; font-size: 1.1rem; }
+.expense-input-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.remove-btn {
+  padding: 8px 12px;
+  background: rgba(239,68,68,0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.add-expense-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,255,178,0.1);
+  color: #00ffb2;
+  border: 1px dashed rgba(0,255,178,0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: 600;
+}
+.category-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 8px;
+}
+.tag-need { background: rgba(0,255,178,0.2); color: #00ffb2; }
+.tag-want { background: rgba(167,139,250,0.2); color: #a78bfa; }
+.tag-save { background: rgba(59,130,246,0.2); color: #3b82f6; }
+.pie-visual {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  margin: 20px auto;
+  position: relative;
+  background: conic-gradient(
+    #00ffb2 0% var(--needs, 50%),
+    #a78bfa var(--needs, 50%) calc(var(--needs, 50%) + var(--wants, 30%)),
+    #3b82f6 calc(var(--needs, 50%) + var(--wants, 30%)) 100%
+  );
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.pie-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 100px;
+  height: 100px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  font-weight: 700;
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.advantages-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+.advantage-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(0,255,178,0.2);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.advantage-icon { font-size: 1.5rem; margin-bottom: 5px; }
+.advantage-title { color: #00ffb2; font-size: 0.85rem; font-weight: 700; margin-bottom: 3px; }
+.advantage-desc { color: #94a3b8; font-size: 0.75rem; line-height: 1.3; }
+</style>
+</head>
+<body>
 
+<nav class="navbar">
+  <div class="logo" onclick="location.href='index.html'">₹ FinVerse</div>
+  <div class="nav-buttons">
+    <a href="modules.html" class="btn btn-outline">Modules</a>
+    <a href="pricing.html" class="btn btn-primary">Get Started</a>
+  </div>
+</nav>
+
+<div class="sim-container">
+
+<div class="sim-header">
+  <h1>🎮 Advanced Financial Simulators</h1>
+  <p>Practice with real Indian financial tools • Based on FY 2026-27 Union Budget</p>
+</div>
+
+<div class="sim-tabs">
+  <button class="sim-tab active" onclick="showSim('sip', event)">📈 SIP</button>
+  <button class="sim-tab" onclick="showSim('budget', event)">💰 Smart Budget</button>
+  <button class="sim-tab" onclick="showSim('tax', event)">🧾 Tax Calculator</button>
+  <button class="sim-tab" onclick="showSim('emi', event)">🏦 EMI Trap</button>
+  <button class="sim-tab" onclick="showSim('scam', event)">🛡️ Scam Detector</button>
+  <button class="sim-tab" onclick="showSim('credit', event)">💳 Credit Cards</button>
+  <button class="sim-tab" onclick="showSim('salary', event)">💼 Salary Split</button>
+</div>
+
+<!-- ==================== SIP CALCULATOR ==================== -->
+<div class="simulator active" id="sip">
+  <div class="sim-title-row">
+    <h2>📈 SIP Calculator</h2>
+  </div>
+  <p class="sim-desc-text">See how monthly investments grow through compounding. Enter your current age to see how much wealth you'll build at every future milestone!</p>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">Your Age (Years)</label>
+      <input type="number" class="input-field" id="sipAge" value="18" min="10" max="60">
+    </div>
+    <div>
+      <label class="input-label">Monthly SIP (₹)</label>
+      <input type="number" class="input-field" id="sipAmount" value="5000">
+    </div>
+  </div>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">Expected Return (%)</label>
+      <input type="number" class="input-field" id="sipRate" value="12" step="0.5">
+    </div>
+    <div>
+      <label class="input-label">Investment Period (Years)</label>
+      <input type="number" class="input-field" id="sipYears" value="10">
+    </div>
+  </div>
+  
+  <button class="calc-btn" onclick="calcSIP()">🚀 Calculate My Wealth Journey</button>
+  
+  <div class="output-box" id="sipOutput"></div>
+</div>
+
+<!-- ==================== SMART BUDGET ==================== -->
+<div class="simulator" id="budget">
+  <div class="sim-title-row">
+    <h2>💰 Smart Budget Analyzer</h2>
+  </div>
+  <p class="sim-desc-text">Add ALL your monthly expenses. Our AI will auto-categorize them into Needs/Wants/Savings using the 50-30-20 rule and give personalized insights!</p>
+  
+  <div class="input-single">
+    <label class="input-label">Your Monthly Income (₹)</label>
+    <input type="number" class="input-field" id="budgetIncome" value="30000">
+  </div>
+  
+  <label class="input-label">Add Your Expenses:</label>
+  <div id="expenseList">
+    <div class="expense-input-row">
+      <input type="text" class="input-field" placeholder="e.g., Rent" value="Rent">
+      <input type="number" class="input-field" placeholder="Amount" value="8000">
+      <button class="remove-btn" onclick="removeExpense(this)">✕</button>
+    </div>
+    <div class="expense-input-row">
+      <input type="text" class="input-field" placeholder="e.g., Groceries" value="Groceries">
+      <input type="number" class="input-field" placeholder="Amount" value="4000">
+      <button class="remove-btn" onclick="removeExpense(this)">✕</button>
+    </div>
+    <div class="expense-input-row">
+      <input type="text" class="input-field" placeholder="e.g., Netflix" value="Netflix">
+      <input type="number" class="input-field" placeholder="Amount" value="500">
+      <button class="remove-btn" onclick="removeExpense(this)">✕</button>
+    </div>
+    <div class="expense-input-row">
+      <input type="text" class="input-field" placeholder="e.g., Movies" value="Movies">
+      <input type="number" class="input-field" placeholder="Amount" value="1500">
+      <button class="remove-btn" onclick="removeExpense(this)">✕</button>
+    </div>
+  </div>
+  
+  <button class="add-expense-btn" onclick="addExpense()">+ Add Another Expense</button>
+  <button class="calc-btn" onclick="analyzeBudget()">🧠 Analyze My Budget</button>
+  
+  <div class="output-box" id="budgetOutput"></div>
+</div>
+
+<script>
+// Utility functions
+function fmt(num) { return '₹' + Math.round(num).toLocaleString('en-IN'); }
+function fmtL(num) {
+  if (num >= 10000000) return '₹' + (num/10000000).toFixed(2) + ' Cr';
+  if (num >= 100000) return '₹' + (num/100000).toFixed(2) + ' L';
+  return '₹' + Math.round(num).toLocaleString('en-IN');
+}
+
+function showSim(id, evt) {
+  document.querySelectorAll('.simulator').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (evt) evt.target.classList.add('active');
+}
+
+// ==================== SIP CALCULATOR ====================
+function calcSIP() {
+  const age = parseInt(document.getElementById('sipAge').value);
+  const P = parseFloat(document.getElementById('sipAmount').value);
+  const rate = parseFloat(document.getElementById('sipRate').value);
+  const years = parseInt(document.getElementById('sipYears').value);
+  const r = rate / 100 / 12;
+  const n = years * 12;
+  const FV = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+  const invested = P * n;
+  const returns = FV - invested;
+  
+  // Age milestones
+  const milestones = [5, 10, 15, 20, 25, 30, 35, 40];
+  let milestoneHTML = '';
+  milestones.forEach(yr => {
+    if (yr <= years || (age + yr) <= 60) {
+      const nMonths = yr * 12;
+      const mFV = P * ((Math.pow(1 + r, nMonths) - 1) / r) * (1 + r);
+      milestoneHTML += `<div class="age-milestone">
+        <span>At age ${age + yr} (${yr}yr)</span>
+        <strong>${fmtL(mFV)}</strong>
+      </div>`;
+    }
+  });
+  
+  document.getElementById('sipOutput').innerHTML = `
+    <div class="output-label">Your Wealth at Age ${age + years}</div>
+    <div class="big-number">${fmtL(FV)}</div>
+    
+    <div class="result-row"><span>💰 Total Invested:</span><strong>${fmtL(invested)}</strong></div>
+    <div class="result-row"><span>📈 Returns Generated:</span><strong>${fmtL(returns)}</strong></div>
+    <div class="result-row"><span>🚀 Wealth Multiplier:</span><strong>${(FV/invested).toFixed(2)}x</strong></div>
+    <div class="result-row"><span>⏰ Monthly Investment:</span><strong>${fmt(P)}</strong></div>
+    
+    <h4 style="color:#00ffb2; margin:20px 0 10px;">🎯 Your Age Milestones:</h4>
+    ${milestoneHTML}
+    
+    <h4 style="color:#00ffb2; margin:20px 0 10px;">✨ Why SIP is Powerful:</h4>
+    <div class="advantages-grid">
+      <div class="advantage-card">
+        <div class="advantage-icon">💎</div>
+        <div class="advantage-title">Rupee Cost Averaging</div>
+        <div class="advantage-desc">Buy more units when prices are low</div>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon">🎯</div>
+        <div class="advantage-title">Disciplined Investing</div>
+        <div class="advantage-desc">Auto-invest every month, no delays</div>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon">📊</div>
+        <div class="advantage-title">Power of Compounding</div>
+        <div class="advantage-desc">Earn interest on interest earned</div>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon">🚀</div>
+        <div class="advantage-title">Start with ₹500</div>
+        <div class="advantage-desc">No need for large lump sum</div>
+      </div>
+    </div>
+    
+    <div class="success-box">
+      <h4>💡 Pro Tip:</h4>
+      <p>If you had started this SIP 5 years earlier (at age ${age - 5}), you'd have <strong>${fmtL(P * ((Math.pow(1 + r, (years+5)*12) - 1) / r) * (1 + r))}</strong> at age ${age + years}! Time is your biggest ally.</p>
+    </div>
+    
+    <div class="insight-box">
+      <h4>📚 Real Indian Example:</h4>
+      <p>Rakesh Jhunjhunwala started investing ₹5,000/month in stocks in his 20s. By age 60, his wealth crossed ₹5,800 crores through compounding + smart picks. YOU are starting even earlier!</p>
+    </div>
+  `;
+  document.getElementById('sipOutput').classList.add('show');
+}
+
+// ==================== SMART BUDGET ====================
+const needsKeywords = ['rent','grocery','groceries','food','transport','fuel','electricity','water','bill','education','medicine','doctor','insurance','emi','loan','mobile','phone','internet','gas','maid','tuition','fees'];
+const wantsKeywords = ['netflix','movie','movies','dining','restaurant','shopping','clothes','gadget','game','games','party','entertainment','travel','vacation','holiday','gym','coffee','starbucks','swiggy','zomato','ott','prime','spotify','music'];
+const saveKeywords = ['sip','mutual','fund','fd','rd','stock','stocks','invest','saving','savings','ppf','nps','crypto','gold','deposit','emergency'];
+
+function categorizeExpense(name) {
+  const lower = name.toLowerCase().trim();
+  for (let kw of saveKeywords) if (lower.includes(kw)) return 'save';
+  for (let kw of wantsKeywords) if (lower.includes(kw)) return 'want';
+  for (let kw of needsKeywords) if (lower.includes(kw)) return 'need';
+  return 'want'; // default uncategorized to want
+}
+
+function addExpense() {
+  const div = document.createElement('div');
+  div.className = 'expense-input-row';
+  div.innerHTML = `
+    <input type="text" class="input-field" placeholder="Expense name">
+    <input type="number" class="input-field" placeholder="Amount">
+    <button class="remove-btn" onclick="removeExpense(this)">✕</button>
+  `;
+  document.getElementById('expenseList').appendChild(div);
+}
+
+function removeExpense(btn) { btn.parentElement.remove(); }
+
+function analyzeBudget() {
+  const income = parseFloat(document.getElementById('budgetIncome').value);
+  const rows = document.querySelectorAll('#expenseList .expense-input-row');
+  let needs = 0, wants = 0, saves = 0;
+  let needsList = [], wantsList = [], savesList = [];
+  
+  rows.forEach(row => {
+    const name = row.children[0].value.trim();
+    const amount = parseFloat(row.children[1].value) || 0;
+    if (!name || amount <= 0) return;
+    const cat = categorizeExpense(name);
+    if (cat === 'need') { needs += amount; needsList.push({name, amount}); }
+    else if (cat === 'want') { wants += amount; wantsList.push({name, amount}); }
+    else { saves += amount; savesList.push({name, amount}); }
+  });
+  
+  const totalSpent = needs + wants + saves;
+  const remaining = income - totalSpent;
+  const needsPct = (needs/income*100).toFixed(1);
+  const wantsPct = (wants/income*100).toFixed(1);
+  const savesPct = ((saves + Math.max(remaining,0))/income*100).toFixed(1);
+  
+  let insights = '';
+  if (needsPct > 50) insights += `<div class="warning-box"><h4>⚠️ Needs Too High</h4><p>Your needs are ${needsPct}% (should be ≤50%). Consider reducing rent, EMIs, or finding cheaper alternatives.</p></div>`;
+  if (wantsPct > 30) insights += `<div class="danger-box"><h4>🚨 Overspending on Wants</h4><p>You're spending ${wantsPct}% on wants (should be ≤30%). Cut down on entertainment, dining out, and impulsive shopping.</p></div>`;
+  if (savesPct < 20) insights += `<div class="danger-box"><h4>❌ Low Savings</h4><p>You're only saving ${savesPct}% (should be ≥20%). Increase SIP or reduce wants to build wealth.</p></div>`;
+  if (savesPct >= 20 && needsPct <= 50 && wantsPct <= 30) insights += `<div class="success-box"><h4>🏆 Perfect Budget!</h4><p>You're following the 50-30-20 rule perfectly! Keep it up and you'll build serious wealth.</p></div>`;
+  
+  document.getElementById('budgetOutput').innerHTML = `
+    <div class="output-label">Your Monthly Income</div>
+    <div class="big-number">${fmt(income)}</div>
+    
+    <div class="pie-visual" style="--needs: ${needsPct}%; --wants: ${wantsPct}%;">
+      <div class="pie-center">
+        <div style="font-size:0.75rem; color:#94a3b8;">Total Spent</div>
+        <div style="color:#00ffb2;">${fmt(totalSpent)}</div>
+      </div>
+    </div>
+    
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#00ffb2;"></div>Needs ${needsPct}%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>Wants ${wantsPct}%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>Savings ${savesPct}%</div>
+    </div>
+    
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-header"><span>🏠 Needs (${needsPct}%)</span><span>${fmt(needs)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(needsPct,100)}%; background:linear-gradient(90deg,#00ffb2,#059669);">${needsPct}%</div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-header"><span>🎉 Wants (${wantsPct}%)</span><span>${fmt(wants)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(wantsPct,100)}%; background:linear-gradient(90deg,#a78bfa,#7c3aed);">${wantsPct}%</div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-header"><span>💰 Savings (${savesPct}%)</span><span>${fmt(saves + Math.max(remaining,0))}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(savesPct,100)}%; background:linear-gradient(90deg,#3b82f6,#1e40af);">${savesPct}%</div></div>
+      </div>
+    </div>
+    
+    <h4 style="color:#00ffb2; margin:20px 0 10px;">📋 Expense Breakdown:</h4>
+    ${needsList.map(e => `<div class="result-row"><span>${e.name}<span class="category-tag tag-need">NEED</span></span><strong>${fmt(e.amount)}</strong></div>`).join('')}
+    ${wantsList.map(e => `<div class="result-row"><span>${e.name}<span class="category-tag tag-want">WANT</span></span><strong>${fmt(e.amount)}</strong></div>`).join('')}
+    ${savesList.map(e => `<div class="result-row"><span>${e.name}<span class="category-tag tag-save">SAVE</span></span><strong>${fmt(e.amount)}</strong></div>`).join('')}
+    
+    ${insights}
+    
+    <div class="insight-box">
+      <h4>💡 5-Year Projection:</h4>
+      <p>If you save ${fmt(saves + Math.max(remaining,0))}/month at 12% returns for 5 years, you'll have <strong>${fmtL((saves + Math.max(remaining,0)) * ((Math.pow(1.01, 60) - 1) / 0.01))}</strong>. Even more if you increase savings!</p>
+    </div>
+  `;
+  document.getElementById('budgetOutput').classList.add('show');
+}
+</script>
+
+<!-- PART 2 will be added below this line -->
+</div>
+
+</body>
+</html>
