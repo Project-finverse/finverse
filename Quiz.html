@@ -1,1 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz - FinVerse</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.quiz-header {
+  background: var(--bg-card);
+  border: 1px solid rgba(0,255,178,0.2);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.quiz-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.q-counter {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.timer {
+  background: rgba(0,255,178,0.1);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 700;
+  border: 1px solid rgba(0,255,178,0.3);
+}
+.timer.warning { background: rgba(251,146,60,0.2); border-color: #fb923c; color: #fb923c; }
+.timer.danger { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #ef4444; animation: shake 0.3s; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+.quiz-progress-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--gradient-1);
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px #00ffb2;
+}
+.question-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  animation: slideIn 0.4s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.question-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.option-btn {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.option-btn:hover:not(:disabled) {
+  background: rgba(0,255,178,0.1);
+  border-color: #00ffb2;
+  transform: translateX(5px);
+}
+.option-btn:disabled { cursor: not-allowed; }
+.option-btn.correct {
+  background: rgba(34,197,94,0.2);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+.option-btn.wrong {
+  background: rgba(239,68,68,0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.explanation {
+  background: rgba(59,130,246,0.1);
+  border-left: 4px solid #3b82f6;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+.explanation-title { color: #3b82f6; font-weight: 700; margin-bottom: 8px; }
+.next-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--gradient-1);
+  border: none;
+  border-radius: 12px;
+  color: var(--bg-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,255,178,0.4); }
+.result-screen {
+  background: var(--bg-card);
+  border: 2px solid #00ffb2;
+  border-radius: 25px;
+  padding: 40px 25px;
+  text-align: center;
+  animation: fadeIn 0.6s;
+}
+.grade-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: 800;
+  background: rgba(0,0,0,0.3);
+  border: 5px solid #00ffb2;
+  box-shadow: 0 0 30px rgba(0,255,178,0.4);
+}
+.result-score {
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 15px 0;
+}
+.result-percent { font-size: 1.5rem; color: #94a3b8; margin-bottom: 20px; }
+.grade-label {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 25px 0;
+}
+.result-stat {
+  background: rgba(0,0,0,0.3);
+  padding: 15px;
+  border-radius: 12px;
+}
+.result-stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #00ffb2;
+}
+.result-stat-label { color: #94a3b8; font-size: 0.85rem; margin-top: 5px; }
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.improve-box {
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+.improve-box h3 { color: #fbbf24; margin-bottom: 10px; }
+</style>
+</head>
+<body>
 
+<nav class="navbar">
+  <div class="logo" onclick="location.href='index.html'">₹ FinVerse</div>
+  <div class="nav-buttons">
+    <a href="modules.html" class="btn btn-outline">Modules</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <button class="back-btn" id="backBtn">←</button>
+    <h1 class="page-title" id="quizTitle">Quiz</h1>
+  </div>
+
+  <div id="quizContent"></div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+const moduleId = getURLParam('id') || 'financial';
+const quiz = QUIZZES[moduleId];
+
+let currentQ = 0;
+let score = 0;
+let userAnswers = [];
+let timerInterval;
+let timeLeft = 30;
+
+document.getElementById('backBtn').onclick = () => location.href = 'module.html?id=' + moduleId;
+
+if (quiz) {
+  document.getElementById('quizTitle').innerHTML = quiz.icon + ' ' + quiz.title + ' Quiz';
+  document.title = quiz.title + ' Quiz - FinVerse';
+  startQuiz();
+}
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  userAnswers = [];
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= quiz.questions.length) {
+    showResults();
+    return;
+  }
+  
+  const q = quiz.questions[currentQ];
+  const progress = ((currentQ) / quiz.questions.length) * 100;
+  timeLeft = 30;
+  
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="q-counter">Question ${currentQ + 1} / ${quiz.questions.length}</span>
+        <span class="timer" id="timer">⏱️ 30s</span>
+      </div>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" style="width: ${progress}%"></div>
+      </div>
+    </div>
+    
+    <div class="question-card">
+      <div class="question-text">${q.q}</div>
+      <div id="options">
+        ${q.options.map((opt, i) => `
+          <button class="option-btn" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${opt}</button>
+        `).join('')}
+      </div>
+      <div id="feedback"></div>
+    </div>
+  `;
+  
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const timer = document.getElementById('timer');
+    if (timer) {
+      timer.textContent = `⏱️ ${timeLeft}s`;
+      if (timeLeft <= 10) timer.classList.add('warning');
+      if (timeLeft <= 5) { timer.classList.remove('warning'); timer.classList.add('danger'); }
+    }
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      selectAnswer(-1);
+    }
+  }, 1000);
+}
+
+function selectAnswer(selected) {
+  clearInterval(timerInterval);
+  const q = quiz.questions[currentQ];
+  const buttons = document.querySelectorAll('.option-btn');
+  const isCorrect = selected === q.correct;
+  
+  if (isCorrect) score++;
+  userAnswers.push({q: q.q, selected: selected, correct: q.correct, isCorrect: isCorrect});
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    if (i === selected && !isCorrect) btn.classList.add('wrong');
+  });
+  
+  const feedback = document.getElementById('feedback');
+  feedback.innerHTML = `
+    <div class="explanation">
+      <div class="explanation-title">${selected === -1 ? '⏱️ Time Up!' : isCorrect ? '✅ Correct!' : '❌ Wrong Answer'}</div>
+      <div>${q.explain}</div>
+    </div>
+    <button class="next-btn" onclick="nextQuestion()">${currentQ + 1 === quiz.questions.length ? 'View Results 🏆' : 'Next Question →'}</button>
+  `;
+}
+
+function nextQuestion() {
+  currentQ++;
+  showQuestion();
+}
+
+function showResults() {
+  const percent = Math.round((score / quiz.questions.length) * 100);
+  const grade = getGrade(percent);
+  const correctCount = score;
+  const wrongCount = quiz.questions.length - score;
+  
+  saveQuizResult(moduleId, score, quiz.questions.length);
+  
+  const message = percent >= 90 ? '🏆 Outstanding! You\'re a financial genius!' 
+                : percent >= 70 ? '🎉 Great job! Keep learning!'
+                : percent >= 50 ? '👍 Good effort. Review and try again!'
+                : '📚 Needs practice. Study the module and retake!';
+  
+  document.getElementById('quizContent').innerHTML = `
+    <div class="result-screen">
+      <div class="grade-circle" style="border-color: ${grade.color}; color: ${grade.color}; box-shadow: 0 0 30px ${grade.color}40;">
+        ${grade.grade}
+      </div>
+      <div class="result-score">${score}/${quiz.questions.length}</div>
+      <div class="result-percent">${percent}% Score</div>
+      <div class="grade-label" style="background: ${grade.color}20; color: ${grade.color}; border: 1px solid ${grade.color}40;">
+        ${grade.label}
+      </div>
+      <p style="color: #94a3b8; margin: 15px 0;">${message}</p>
+      
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-value" style="color:#22c55e;">${correctCount}</div>
+          <div class="result-stat-label">✅ Correct</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-value" style="color:#ef4444;">${wrongCount}</div>
+          <div class="result-stat-label">❌ Wrong</div>
+        </div>
+      </div>
+      
+      ${percent < 70 ? `
+        <div class="improve-box">
+          <h3>💡 How to Improve:</h3>
+          <p style="color:#fff; line-height:1.6;">${quiz.improve}</p>
+        </div>
+      ` : ''}
+      
+      <div class="action-buttons">
+        <button class="btn btn-outline" onclick="startQuiz()">🔄 Retake</button>
+        <button class="btn btn-primary" onclick="location.href='progress.html?id=${moduleId}'">📊 View Report</button>
+      </div>
+      
+      <div style="margin-top:15px;">
+        <a href="modules.html" class="btn btn-outline btn-full">← Back to Modules</a>
+      </div>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
