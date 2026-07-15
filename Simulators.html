@@ -1014,4 +1014,307 @@ function nextScam() {
 }
 </script>
 
-<!-- PART 3 will be added below this line -->
+
+<!-- ==================== CREDIT CARD ANALYZER ==================== -->
+<div class="simulator" id="credit">
+  <div class="sim-title-row">
+    <h2>💳 Credit Card Analyzer</h2>
+  </div>
+  <p class="sim-desc-text">Compare India's top credit cards, understand the debt trap, and learn the SMART way to use credit cards!</p>
+  
+  <div class="input-single">
+    <label class="input-label">Choose Your Profile</label>
+    <select class="input-field" id="ccProfile">
+      <option value="student">🎓 College Student (No Income)</option>
+      <option value="fresher">👔 Fresh Graduate (₹25K-40K/month)</option>
+      <option value="shopper">🛍️ Online Shopper (₹40K-80K/month)</option>
+      <option value="traveler">✈️ Frequent Traveler (₹80K+/month)</option>
+    </select>
+  </div>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">Monthly Card Spending (₹)</label>
+      <input type="number" class="input-field" id="ccSpend" value="15000">
+    </div>
+    <div>
+      <label class="input-label">Pay Only Minimum? (%)</label>
+      <input type="number" class="input-field" id="ccMinPay" value="5" min="5" max="100">
+    </div>
+  </div>
+  
+  <button class="calc-btn" onclick="analyzeCC()">💳 Show Me the Truth</button>
+  
+  <div class="output-box" id="ccOutput"></div>
+</div>
+
+<!-- ==================== SALARY SPLIT SIMULATOR ==================== -->
+<div class="simulator" id="salary">
+  <div class="sim-title-row">
+    <h2>💼 Salary Split Simulator</h2>
+  </div>
+  <p class="sim-desc-text">See EXACTLY how your CTC breaks down as per Indian salary rules — Basic, HRA, PF, Tax, and Take Home!</p>
+  
+  <div class="input-single">
+    <label class="input-label">Annual CTC (Cost to Company) ₹</label>
+    <input type="number" class="input-field" id="salCTC" value="800000">
+  </div>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">City Type</label>
+      <select class="input-field" id="salCity">
+        <option value="metro">Metro (Mumbai/Delhi/Kolkata/Chennai)</option>
+        <option value="nonmetro">Non-Metro</option>
+      </select>
+    </div>
+    <div>
+      <label class="input-label">Tax Regime</label>
+      <select class="input-field" id="salRegime">
+        <option value="new">New Regime (Default)</option>
+        <option value="old">Old Regime</option>
+      </select>
+    </div>
+  </div>
+  
+  <button class="calc-btn" onclick="calcSalary()">💰 Break Down My Salary</button>
+  
+  <div class="output-box" id="salOutput"></div>
+</div>
+
+<script>
+// ==================== CREDIT CARD ANALYZER ====================
+const cards = {
+  student: [
+    {name: "SBI SimplyCLICK", bank: "SBI", fee: "₹499", best: "Online shopping (Amazon, BookMyShow)", reward: "10x on partners, 1x elsewhere", rate: "42% APR", note: "Great starter card - low fee, easy to get with FD backing"},
+    {name: "ICICI Amazon Pay", bank: "ICICI", fee: "FREE", best: "Amazon shopping", reward: "5% on Amazon, 2% on other online", rate: "42% APR", note: "Zero annual fee makes it perfect for students"},
+    {name: "Kotak 811 Dream Different", bank: "Kotak", fee: "FREE (lifetime)", best: "New card users", reward: "2 points per ₹100", rate: "37% APR", note: "Instant approval, no income proof needed with Kotak 811 account"}
+  ],
+  fresher: [
+    {name: "HDFC MoneyBack+", bank: "HDFC", fee: "₹500", best: "First job holders", reward: "10x on Amazon/Flipkart/Swiggy", rate: "43% APR", note: "Perfect entry-level card, easy upgrades later"},
+    {name: "Axis ACE Credit Card", bank: "Axis", fee: "₹499", best: "Bill payments", reward: "5% cashback on bills, 4% on Swiggy/Zomato", rate: "42% APR", note: "Best cashback card under ₹500 fee"},
+    {name: "SBI Cashback Card", bank: "SBI", fee: "₹999", best: "General spending", reward: "5% cashback on ALL online spends", rate: "42% APR", note: "Simple flat cashback, no confusion"}
+  ],
+  shopper: [
+    {name: "Flipkart Axis Bank", bank: "Axis", fee: "₹500", best: "Flipkart, Myntra, Cleartrip", reward: "5% Flipkart, 4% preferred merchants", rate: "42% APR", note: "Must-have for Big Billion Day shoppers"},
+    {name: "HDFC Millennia", bank: "HDFC", fee: "₹1,000", best: "Amazon, Flipkart, Swiggy, Zomato", reward: "5% cashback on 10+ partners", rate: "43% APR", note: "Multi-brand cashback king"},
+    {name: "Amazon Pay ICICI", bank: "ICICI", fee: "FREE", best: "Amazon Prime members", reward: "5% (Prime), 3% (non-Prime) on Amazon", rate: "42% APR", note: "Lifetime free - unbeatable for Amazon users"}
+  ],
+  traveler: [
+    {name: "HDFC Regalia Gold", bank: "HDFC", fee: "₹2,500", best: "International travel, dining", reward: "4 reward points per ₹150", rate: "42% APR", note: "Airport lounge access, low forex markup"},
+    {name: "Axis Magnus", bank: "Axis", fee: "₹12,500", best: "Premium travelers", reward: "25x on Magnus portal", rate: "42% APR", note: "Best travel rewards but high fee - only for heavy spenders"},
+    {name: "SBI ELITE", bank: "SBI", fee: "₹4,999", best: "Movies + travel", reward: "5x on dining/departmental, 2x on international", rate: "42% APR", note: "Free BookMyShow tickets + lounge access"}
+  ]
+};
+
+function analyzeCC() {
+  const profile = document.getElementById('ccProfile').value;
+  const spend = parseFloat(document.getElementById('ccSpend').value);
+  const minPay = parseFloat(document.getElementById('ccMinPay').value);
+  const profileCards = cards[profile];
+  
+  // Debt trap calculation
+  const annualRate = 0.42;
+  const monthlyRate = annualRate / 12;
+  const unpaid = spend * (1 - minPay/100);
+  let balance = unpaid;
+  let totalInterest = 0;
+  let months = 0;
+  const monthlyMinPayment = unpaid * 0.05;
+  
+  while (balance > 0 && months < 240) {
+    const interest = balance * monthlyRate;
+    totalInterest += interest;
+    balance = balance + interest - monthlyMinPayment;
+    if (balance < monthlyMinPayment) { totalInterest += balance * monthlyRate; balance = 0; }
+    months++;
+  }
+  
+  let cardsHTML = '';
+  profileCards.forEach(c => {
+    cardsHTML += `
+      <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(0,255,178,0.2); border-radius:15px; padding:18px; margin:12px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#00ffb2; font-size:1.05rem;">${c.name}</h4>
+          <span style="background:rgba(0,255,178,0.15); color:#00ffb2; padding:4px 10px; border-radius:12px; font-size:0.75rem; font-weight:700;">${c.bank}</span>
+        </div>
+        <div style="color:#94a3b8; font-size:0.85rem; margin:6px 0;"><strong style="color:#fff;">Fee:</strong> ${c.fee}</div>
+        <div style="color:#94a3b8; font-size:0.85rem; margin:6px 0;"><strong style="color:#fff;">Best for:</strong> ${c.best}</div>
+        <div style="color:#94a3b8; font-size:0.85rem; margin:6px 0;"><strong style="color:#fff;">Rewards:</strong> ${c.reward}</div>
+        <div style="color:#ef4444; font-size:0.85rem; margin:6px 0;"><strong>Interest:</strong> ${c.rate}</div>
+        <div style="background:rgba(0,255,178,0.05); padding:8px 12px; border-radius:8px; margin-top:8px; color:#e2e8f0; font-size:0.85rem;">💡 ${c.note}</div>
+      </div>
+    `;
+  });
+  
+  document.getElementById('ccOutput').innerHTML = `
+    <h4 style="color:#00ffb2; margin-bottom:15px;">🏆 Top Cards for Your Profile:</h4>
+    ${cardsHTML}
+    
+    <div class="danger-box" style="margin-top:25px;">
+      <h4>💀 THE DEBT TRAP EXPOSED</h4>
+      <p>You spend <strong>${fmt(spend)}/month</strong> and pay only <strong>${minPay}%</strong> minimum.</p>
+      <p style="margin-top:10px;">Unpaid amount: <strong>${fmt(unpaid)}</strong> per month</p>
+      <p>At <strong>42% APR</strong>, this becomes:</p>
+      <div style="background:rgba(0,0,0,0.4); padding:15px; border-radius:10px; margin-top:10px;">
+        <div style="font-size:1.5rem; font-weight:800; color:#ef4444; text-align:center;">${fmt(totalInterest)}</div>
+        <div style="text-align:center; color:#94a3b8; font-size:0.85rem;">EXTRA interest paid over ${months} months</div>
+      </div>
+      <p style="margin-top:10px;"><strong>Result:</strong> You'll pay <strong style="color:#ef4444;">${(totalInterest/unpaid*100).toFixed(0)}%</strong> extra just in interest!</p>
+    </div>
+    
+    <div class="warning-box">
+      <h4>⚠️ Real Story: The Minimum Payment Trap</h4>
+      <p><strong>Rahul, 24, IT professional:</strong> Bought iPhone 15 for ₹80,000 on credit card. Paid only ₹4,000/month minimum. After 2 years, still owed ₹65,000! Total paid: ₹1,45,000 (₹65,000 extra just in interest).</p>
+      <p style="margin-top:8px;">This happens to <strong>60% of Indian credit card users</strong> according to CIBIL data.</p>
+    </div>
+    
+    <div class="success-box">
+      <h4>✅ SMART Credit Card Usage:</h4>
+      <p><strong>The Golden Rules:</strong></p>
+      <p style="margin-top:8px;">1. 🎯 <strong>Pay 100% bill on due date</strong> — always, no exceptions<br>2. 💳 Use ONLY for regular expenses you'd pay anyway (bills, groceries)<br>3. 🚫 NEVER take cash advances (49% interest!)<br>4. 📅 Set auto-debit for full payment<br>5. 💰 Use rewards but don't overspend to earn them<br>6. 🔒 Keep credit utilization below 30%<br>7. 📊 Check statements monthly for fraud<br>8. ❌ Don't fall for EMI conversion offers</p>
+    </div>
+    
+    <div class="insight-box">
+      <h4>🎓 For Students Specifically:</h4>
+      <p>Getting a credit card as a student builds your <strong>CIBIL score</strong> early (aim for 750+). This helps you:</p>
+      <p style="margin-top:8px;">• Get better home/car loans later<br>• Rent flats in metros<br>• Apply for higher education loans<br>• Get premium cards after graduation</p>
+      <p style="margin-top:8px;"><strong>But:</strong> One late payment can drop your score by 100+ points and stay for 7 years!</p>
+    </div>
+    
+    <div class="danger-box">
+      <h4>🚨 Warning Signs You're in Trouble:</h4>
+      <p>❌ Only paying minimum due<br>❌ Using new card to pay old card<br>❌ Cash withdrawals from credit card<br>❌ Multiple cards to increase limits<br>❌ Buying wants (not needs) on credit<br>❌ Hiding statements from family<br><br>If any of these apply — <strong>STOP and seek financial counseling immediately!</strong></p>
+    </div>
+  `;
+  document.getElementById('ccOutput').classList.add('show');
+}
+
+// ==================== SALARY SPLIT SIMULATOR ====================
+function calcSalary() {
+  const ctc = parseFloat(document.getElementById('salCTC').value);
+  const city = document.getElementById('salCity').value;
+  const regime = document.getElementById('salRegime').value;
+  
+  // Standard Indian salary structure
+  const basic = ctc * 0.40; // 40% of CTC
+  const hra = city === 'metro' ? basic * 0.50 : basic * 0.40; // 50% metro, 40% non-metro
+  const specialAllowance = ctc * 0.25;
+  const lta = ctc * 0.05;
+  const bonus = ctc * 0.08;
+  
+  // Employer contributions
+  const employerPF = Math.min(basic * 0.12, 21600); // Capped at ₹1,800/month
+  const gratuity = basic * 0.0481; // 4.81% for 5+ years
+  
+  const gross = basic + hra + specialAllowance + lta + bonus;
+  
+  // Employee deductions
+  const employeePF = Math.min(basic * 0.12, 21600);
+  const professionalTax = 2400; // ₹200/month average
+  
+  // Tax calculation
+  const stdDeduction = 75000;
+  const taxableIncome = Math.max(0, gross - stdDeduction);
+  
+  let tax = 0;
+  if (regime === 'new') {
+    if (taxableIncome > 400000) tax += Math.min(taxableIncome - 400000, 400000) * 0.05;
+    if (taxableIncome > 800000) tax += Math.min(taxableIncome - 800000, 400000) * 0.10;
+    if (taxableIncome > 1200000) tax += Math.min(taxableIncome - 1200000, 400000) * 0.15;
+    if (taxableIncome > 1600000) tax += Math.min(taxableIncome - 1600000, 400000) * 0.20;
+    if (taxableIncome > 2000000) tax += Math.min(taxableIncome - 2000000, 400000) * 0.25;
+    if (taxableIncome > 2400000) tax += (taxableIncome - 2400000) * 0.30;
+    
+    if (taxableIncome <= 1200000) tax = Math.max(0, tax - Math.min(tax, 60000));
+  } else {
+    if (taxableIncome > 250000) tax += Math.min(taxableIncome - 250000, 250000) * 0.05;
+    if (taxableIncome > 500000) tax += Math.min(taxableIncome - 500000, 500000) * 0.20;
+    if (taxableIncome > 1000000) tax += (taxableIncome - 1000000) * 0.30;
+    if (taxableIncome <= 500000) tax = Math.max(0, tax - Math.min(tax, 12500));
+  }
+  
+  const cess = tax * 0.04;
+  const totalTax = tax + cess;
+  const totalDeductions = employeePF + professionalTax + totalTax;
+  const netAnnual = gross - totalDeductions;
+  const netMonthly = netAnnual / 12;
+  const takeHomePct = (netAnnual / ctc * 100).toFixed(1);
+  
+  document.getElementById('salOutput').innerHTML = `
+    <div class="output-label">Your Monthly Take-Home Salary</div>
+    <div class="big-number">${fmt(netMonthly)}</div>
+    <div style="text-align:center; color:#94a3b8; margin-bottom:15px;">${fmt(netAnnual)}/year (${takeHomePct}% of CTC)</div>
+    
+    <h4 style="color:#00ffb2; margin:20px 0 10px;">💼 EARNINGS BREAKDOWN</h4>
+    <div class="result-row"><span>Basic Salary (40% of CTC)</span><strong>${fmt(basic)}</strong></div>
+    <div class="result-row"><span>HRA (${city === 'metro' ? '50%' : '40%'} of Basic)</span><strong>${fmt(hra)}</strong></div>
+    <div class="result-row"><span>Special Allowance</span><strong>${fmt(specialAllowance)}</strong></div>
+    <div class="result-row"><span>LTA (Leave Travel Allowance)</span><strong>${fmt(lta)}</strong></div>
+    <div class="result-row"><span>Performance Bonus</span><strong>${fmt(bonus)}</strong></div>
+    <div class="result-row" style="border-top:2px solid rgba(0,255,178,0.3); padding-top:10px; margin-top:5px;"><span><strong>GROSS SALARY (Annual)</strong></span><strong style="color:#00ffb2; font-size:1.1rem;">${fmt(gross)}</strong></div>
+    
+    <h4 style="color:#a78bfa; margin:20px 0 10px;">🏢 EMPLOYER CONTRIBUTIONS (Extra Benefits)</h4>
+    <div class="result-row"><span>Employer PF (12% of Basic)</span><strong>${fmt(employerPF)}</strong></div>
+    <div class="result-row"><span>Gratuity (4.81% of Basic)</span><strong>${fmt(gratuity)}</strong></div>
+    <div class="result-row"><span><strong>Total CTC</strong></span><strong>${fmt(gross + employerPF + gratuity)}</strong></div>
+    
+    <h4 style="color:#ef4444; margin:20px 0 10px;">➖ DEDUCTIONS</h4>
+    <div class="result-row"><span>Employee PF (12% of Basic)</span><strong style="color:#ef4444;">${fmt(employeePF)}</strong></div>
+    <div class="result-row"><span>Professional Tax</span><strong style="color:#ef4444;">${fmt(professionalTax)}</strong></div>
+    <div class="result-row"><span>Income Tax</span><strong style="color:#ef4444;">${fmt(tax)}</strong></div>
+    <div class="result-row"><span>Health & Edu Cess (4%)</span><strong style="color:#ef4444;">${fmt(cess)}</strong></div>
+    <div class="result-row" style="border-top:2px solid rgba(239,68,68,0.3); padding-top:10px; margin-top:5px;"><span><strong>TOTAL DEDUCTIONS</strong></span><strong style="color:#ef4444; font-size:1.1rem;">${fmt(totalDeductions)}</strong></div>
+    
+    <div class="bar-chart" style="margin-top:20px;">
+      <h4 style="color:#00ffb2; margin-bottom:15px;">📊 Visual Breakdown</h4>
+      <div class="bar-item">
+        <div class="bar-header"><span>💰 Take Home (${takeHomePct}%)</span><span>${fmt(netAnnual)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${takeHomePct}%; background:linear-gradient(90deg,#00ffb2,#059669);">${takeHomePct}%</div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-header"><span>🏦 PF Savings (${(employeePF/gross*100).toFixed(1)}%)</span><span>${fmt(employeePF)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(employeePF/gross*100).toFixed(1)}%; background:linear-gradient(90deg,#3b82f6,#1e40af);">${(employeePF/gross*100).toFixed(1)}%</div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-header"><span>🧾 Tax (${((tax+cess)/gross*100).toFixed(1)}%)</span><span>${fmt(tax + cess)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${((tax+cess)/gross*100).toFixed(1)}%; background:linear-gradient(90deg,#ef4444,#dc2626);">${((tax+cess)/gross*100).toFixed(1)}%</div></div>
+      </div>
+    </div>
+    
+    <div class="insight-box">
+      <h4>📋 Salary Structure Explained (Indian Rules):</h4>
+      <p><strong>Basic Salary (40%):</strong> Core salary, used to calculate HRA & PF<br><strong>HRA (50% metro/40% non-metro):</strong> House Rent Allowance, tax-exempt with proof<br><strong>Special Allowance:</strong> Balancing figure, fully taxable<br><strong>LTA:</strong> For travel within India, tax-exempt with bills<br><strong>Bonus:</strong> Annual performance-based reward</p>
+    </div>
+    
+    <div class="success-box">
+      <h4>💎 Hidden Benefits (Your CTC Includes):</h4>
+      <p><strong>Employer PF (${fmt(employerPF)}):</strong> Free retirement savings from company<br><strong>Gratuity (${fmt(gratuity)}):</strong> Bonus after 5 years of service<br><strong>Health Insurance:</strong> Company usually covers ₹3-5L for family<br><strong>Total value: ${fmt(gross + employerPF + gratuity)}/year</strong> — that's your REAL CTC!</p>
+    </div>
+    
+    <div class="warning-box">
+      <h4>💡 Optimize Your Salary:</h4>
+      <p>1. <strong>Submit HRA proofs</strong> - save up to ₹50,000+ tax<br>2. <strong>Use LTA</strong> - Tax-free travel every 2 years<br>3. <strong>Invest in 80C</strong> (Old Regime) - PPF, ELSS save ₹46,800 tax<br>4. <strong>Health Insurance (80D)</strong> - Save up to ₹25,000 in tax<br>5. <strong>NPS (80CCD1B)</strong> - Extra ₹50,000 deduction<br>6. Consider <strong>flexible benefits</strong> like meal cards, fuel allowance</p>
+    </div>
+    
+    <div class="danger-box">
+      <h4>📌 Documents You'll Receive:</h4>
+      <p><strong>Form 16 (Yearly):</strong> Shows salary paid & TDS deducted<br><strong>Form 26AS:</strong> All TDS/Tax credits on your PAN<br><strong>AIS (Annual Info Statement):</strong> Complete financial info<br><strong>Payslip (Monthly):</strong> Detailed breakdown<br><br>⚠️ Always verify these before filing ITR by <strong>July 31</strong>!</p>
+    </div>
+  `;
+  document.getElementById('salOutput').classList.add('show');
+}
+</script>
+
+<footer class="footer" style="margin-top:40px;">
+  <div class="footer-logo">₹ FinVerse</div>
+  <div class="footer-tagline">Learn. Practice. Earn. Lead.</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="modules.html">Modules</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="simulators.html">Simulators</a>
+  </div>
+  <div class="copyright">© 2026 FinVerse. Built with 💚 by Saksham & Archit. All Rights Reserved.</div>
+</footer>
