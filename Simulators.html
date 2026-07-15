@@ -637,3 +637,383 @@ function analyzeBudget() {
 
 </body>
 </html>
+
+<!-- ==================== TAX CALCULATOR ==================== -->
+<div class="simulator" id="tax">
+  <div class="sim-title-row">
+    <h2>🧾 Income Tax Calculator</h2>
+  </div>
+  <p class="sim-desc-text">Based on FY 2026-27 Union Budget (New Regime). No tax on income up to ₹12 lakh with rebate!</p>
+  
+  <div class="input-single">
+    <label class="input-label">Annual Gross Salary (₹)</label>
+    <input type="number" class="input-field" id="taxIncome" value="800000">
+  </div>
+  
+  <div class="input-single">
+    <label class="input-label">Tax Regime</label>
+    <select class="input-field" id="taxRegime">
+      <option value="new">New Regime (Default) - Recommended</option>
+      <option value="old">Old Regime (Optional)</option>
+    </select>
+  </div>
+  
+  <button class="calc-btn" onclick="calcTax()">💰 Calculate My Tax</button>
+  
+  <div class="output-box" id="taxOutput"></div>
+</div>
+
+<!-- ==================== EMI TRAP ANALYZER ==================== -->
+<div class="simulator" id="emi">
+  <div class="sim-title-row">
+    <h2>🏦 EMI Trap Analyzer</h2>
+  </div>
+  <p class="sim-desc-text">Loans look attractive but can trap you in years of payments. See the REAL cost of your EMI and how it affects your income!</p>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">Loan Amount (₹)</label>
+      <input type="number" class="input-field" id="emiAmount" value="500000">
+    </div>
+    <div>
+      <label class="input-label">Interest Rate (%)</label>
+      <input type="number" class="input-field" id="emiRate" value="10" step="0.1">
+    </div>
+  </div>
+  
+  <div class="input-row">
+    <div>
+      <label class="input-label">Tenure (Years)</label>
+      <input type="number" class="input-field" id="emiYears" value="5">
+    </div>
+    <div>
+      <label class="input-label">Your Monthly Income (₹)</label>
+      <input type="number" class="input-field" id="emiIncome" value="50000">
+    </div>
+  </div>
+  
+  <button class="calc-btn" onclick="calcEMI()">⚠️ Reveal the Trap</button>
+  
+  <div class="output-box" id="emiOutput"></div>
+</div>
+
+<!-- ==================== SCAM DETECTOR ==================== -->
+<div class="simulator" id="scam">
+  <div class="sim-title-row">
+    <h2>🛡️ Scam Detector Game</h2>
+  </div>
+  <p class="sim-desc-text">Test your scam-spotting skills with 8 real Indian scenarios. Score 7+ to become a Scam Master!</p>
+  
+  <div id="scamGame"></div>
+  <div id="scamScore" style="text-align:center; margin:20px 0; font-size:1.3rem; font-weight:700;"></div>
+  <button class="calc-btn" onclick="startScamGame()">🎮 Start / Restart Game</button>
+</div>
+
+<script>
+// ==================== TAX CALCULATOR (FY 2026-27) ====================
+function calcTax() {
+  const gross = parseFloat(document.getElementById('taxIncome').value);
+  const regime = document.getElementById('taxRegime').value;
+  const stdDeduction = 75000;
+  const taxable = Math.max(0, gross - stdDeduction);
+  
+  let tax = 0;
+  let slabBreakdown = '';
+  
+  if (regime === 'new') {
+    // FY 2026-27 New Regime Slabs
+    if (taxable > 400000) {
+      const s1 = Math.min(taxable - 400000, 400000);
+      tax += s1 * 0.05;
+      slabBreakdown += `<div class="result-row"><span>₹4L-₹8L @ 5%</span><strong>${fmt(s1 * 0.05)}</strong></div>`;
+    }
+    if (taxable > 800000) {
+      const s2 = Math.min(taxable - 800000, 400000);
+      tax += s2 * 0.10;
+      slabBreakdown += `<div class="result-row"><span>₹8L-₹12L @ 10%</span><strong>${fmt(s2 * 0.10)}</strong></div>`;
+    }
+    if (taxable > 1200000) {
+      const s3 = Math.min(taxable - 1200000, 400000);
+      tax += s3 * 0.15;
+      slabBreakdown += `<div class="result-row"><span>₹12L-₹16L @ 15%</span><strong>${fmt(s3 * 0.15)}</strong></div>`;
+    }
+    if (taxable > 1600000) {
+      const s4 = Math.min(taxable - 1600000, 400000);
+      tax += s4 * 0.20;
+      slabBreakdown += `<div class="result-row"><span>₹16L-₹20L @ 20%</span><strong>${fmt(s4 * 0.20)}</strong></div>`;
+    }
+    if (taxable > 2000000) {
+      const s5 = Math.min(taxable - 2000000, 400000);
+      tax += s5 * 0.25;
+      slabBreakdown += `<div class="result-row"><span>₹20L-₹24L @ 25%</span><strong>${fmt(s5 * 0.25)}</strong></div>`;
+    }
+    if (taxable > 2400000) {
+      const s6 = taxable - 2400000;
+      tax += s6 * 0.30;
+      slabBreakdown += `<div class="result-row"><span>Above ₹24L @ 30%</span><strong>${fmt(s6 * 0.30)}</strong></div>`;
+    }
+    
+    // Section 87A Rebate (up to ₹60,000 if taxable income ≤ ₹12L)
+    let rebate = 0;
+    if (taxable <= 1200000) rebate = Math.min(tax, 60000);
+    tax = Math.max(0, tax - rebate);
+    
+    // Surcharge
+    let surcharge = 0;
+    if (gross > 5000000 && gross <= 10000000) surcharge = tax * 0.10;
+    else if (gross > 10000000 && gross <= 20000000) surcharge = tax * 0.15;
+    else if (gross > 20000000) surcharge = tax * 0.25;
+    
+    const cess = (tax + surcharge) * 0.04;
+    const total = tax + surcharge + cess;
+    const takeHome = gross - total;
+    const effRate = gross > 0 ? (total / gross * 100).toFixed(2) : 0;
+    
+    document.getElementById('taxOutput').innerHTML = `
+      <div class="output-label">Total Tax Payable (FY 2026-27)</div>
+      <div class="big-number">${fmt(total)}</div>
+      
+      <div class="result-row"><span>💼 Gross Salary:</span><strong>${fmt(gross)}</strong></div>
+      <div class="result-row"><span>➖ Standard Deduction:</span><strong>${fmt(stdDeduction)}</strong></div>
+      <div class="result-row"><span>📊 Taxable Income:</span><strong>${fmt(taxable)}</strong></div>
+      
+      ${slabBreakdown ? `<h4 style="color:#00ffb2; margin:15px 0 10px;">Slab-wise Tax:</h4>${slabBreakdown}` : ''}
+      
+      ${rebate > 0 ? `<div class="result-row"><span>🎁 Section 87A Rebate:</span><strong style="color:#22c55e;">-${fmt(rebate)}</strong></div>` : ''}
+      ${surcharge > 0 ? `<div class="result-row"><span>📈 Surcharge:</span><strong>${fmt(surcharge)}</strong></div>` : ''}
+      <div class="result-row"><span>🏥 Health & Edu Cess (4%):</span><strong>${fmt(cess)}</strong></div>
+      <div class="result-row"><span>💰 Take Home:</span><strong style="color:#00ffb2;">${fmt(takeHome)}</strong></div>
+      <div class="result-row"><span>📉 Effective Tax Rate:</span><strong>${effRate}%</strong></div>
+      
+      ${gross <= 1275000 ? `
+        <div class="success-box">
+          <h4>🎉 ZERO TAX Zone!</h4>
+          <p>With ₹75,000 standard deduction + Section 87A rebate, your gross salary up to ₹12.75 lakh pays ZERO income tax! This is the biggest reform of FY 2026-27 budget.</p>
+        </div>
+      ` : ''}
+      
+      <div class="insight-box">
+        <h4>📚 Why Pay Taxes?</h4>
+        <p>Your taxes fund <strong>national defence, roads, schools, hospitals, metros, and welfare schemes</strong>. Every rupee builds India. Salaried Indians contribute over ₹4.5 lakh crore annually to nation-building!</p>
+      </div>
+      
+      <div class="danger-box">
+        <h4>⚠️ Tax Evasion = Crime</h4>
+        <p><strong>Tax evasion</strong> (hiding income, fake bills, black money) is a criminal offense under Indian Income Tax Act. Penalties include:</p>
+        <p style="margin-top:8px;">• 100-300% penalty on unpaid tax<br>• Prosecution & imprisonment up to 7 years<br>• Frozen bank accounts<br>• Criminal record forever</p>
+        <p style="margin-top:8px;"><strong>Tax planning</strong> (using legal deductions) is smart. <strong>Tax evasion</strong> is illegal. Know the difference!</p>
+      </div>
+      
+      <div class="warning-box">
+        <h4>💡 Legal Tax Savings (Old Regime):</h4>
+        <p>• Section 80C: ₹1.5L (PPF, ELSS, LIC)<br>• Section 80D: ₹25K (Health Insurance)<br>• Section 80CCD(1B): ₹50K (NPS)<br>• HRA, LTA (as per rules)<br>Total savings possible: <strong>₹2.5L+ tax deductions!</strong></p>
+      </div>
+    `;
+  } else {
+    // Old Regime
+    const s2_5 = Math.min(Math.max(taxable - 250000, 0), 250000);
+    const s5_10 = Math.min(Math.max(taxable - 500000, 0), 500000);
+    const s10 = Math.max(taxable - 1000000, 0);
+    tax = s2_5 * 0.05 + s5_10 * 0.20 + s10 * 0.30;
+    
+    let rebate = 0;
+    if (taxable <= 500000) rebate = Math.min(tax, 12500);
+    tax = Math.max(0, tax - rebate);
+    
+    const cess = tax * 0.04;
+    const total = tax + cess;
+    const takeHome = gross - total;
+    
+    document.getElementById('taxOutput').innerHTML = `
+      <div class="output-label">Total Tax Payable (Old Regime)</div>
+      <div class="big-number">${fmt(total)}</div>
+      
+      <div class="result-row"><span>💼 Gross Salary:</span><strong>${fmt(gross)}</strong></div>
+      <div class="result-row"><span>➖ Standard Deduction:</span><strong>${fmt(stdDeduction)}</strong></div>
+      <div class="result-row"><span>📊 Taxable Income:</span><strong>${fmt(taxable)}</strong></div>
+      <div class="result-row"><span>💰 Base Tax:</span><strong>${fmt(tax + rebate)}</strong></div>
+      ${rebate > 0 ? `<div class="result-row"><span>🎁 Rebate 87A:</span><strong style="color:#22c55e;">-${fmt(rebate)}</strong></div>` : ''}
+      <div class="result-row"><span>🏥 Cess (4%):</span><strong>${fmt(cess)}</strong></div>
+      <div class="result-row"><span>💰 Take Home:</span><strong style="color:#00ffb2;">${fmt(takeHome)}</strong></div>
+      
+      <div class="warning-box">
+        <h4>💡 Consider New Regime!</h4>
+        <p>The New Regime (FY 2026-27) offers ZERO tax up to ₹12.75L gross salary with rebate. Unless you have massive deductions (₹4L+), the New Regime is usually better.</p>
+      </div>
+      
+      <div class="insight-box">
+        <h4>📚 Old Regime Benefits:</h4>
+        <p>Only worth it if you claim:<br>• Section 80C (₹1.5L investments)<br>• HRA + Home Loan Interest<br>• Health Insurance (80D)<br>• NPS (80CCD)<br>Total deductions above ₹4L</p>
+      </div>
+    `;
+  }
+  
+  document.getElementById('taxOutput').classList.add('show');
+}
+
+// ==================== EMI TRAP ANALYZER ====================
+function calcEMI() {
+  const P = parseFloat(document.getElementById('emiAmount').value);
+  const rate = parseFloat(document.getElementById('emiRate').value);
+  const years = parseInt(document.getElementById('emiYears').value);
+  const income = parseFloat(document.getElementById('emiIncome').value);
+  const r = rate / 100 / 12;
+  const n = years * 12;
+  const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const total = emi * n;
+  const interest = total - P;
+  const incomePct = (emi / income * 100).toFixed(1);
+  const lostSavings = emi * n; // if invested at 12% instead
+  const investIfSaved = emi * ((Math.pow(1.01, n) - 1) / 0.01);
+  
+  let trapLevel = '';
+  let trapClass = '';
+  if (incomePct > 50) { trapLevel = '🚨 EXTREME DEBT TRAP'; trapClass = 'danger-box'; }
+  else if (incomePct > 40) { trapLevel = '⚠️ HIGH RISK ZONE'; trapClass = 'danger-box'; }
+  else if (incomePct > 30) { trapLevel = '📊 MODERATE PRESSURE'; trapClass = 'warning-box'; }
+  else if (incomePct > 20) { trapLevel = '✅ MANAGEABLE'; trapClass = 'success-box'; }
+  else { trapLevel = '💚 SAFE ZONE'; trapClass = 'success-box'; }
+  
+  document.getElementById('emiOutput').innerHTML = `
+    <div class="output-label">Your Monthly EMI</div>
+    <div class="big-number">${fmt(emi)}</div>
+    
+    <div class="${trapClass}">
+      <h4>${trapLevel}</h4>
+      <p>EMI is <strong>${incomePct}%</strong> of your income. Financial experts recommend keeping total EMIs below <strong>40%</strong> of monthly income. Above 50% is a serious debt trap!</p>
+    </div>
+    
+    <div class="bar-chart">
+      <div class="bar-item">
+        <div class="bar-header"><span>💸 EMI Impact on Income</span><span>${incomePct}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(incomePct,100)}%; background:linear-gradient(90deg, ${incomePct > 40 ? '#ef4444, #dc2626' : '#fb923c, #f97316'});">${incomePct}%</div></div>
+      </div>
+    </div>
+    
+    <div class="result-row"><span>💰 Loan Amount:</span><strong>${fmt(P)}</strong></div>
+    <div class="result-row"><span>💸 Total Interest:</span><strong style="color:#ef4444;">${fmt(interest)}</strong></div>
+    <div class="result-row"><span>💵 Total Payment:</span><strong>${fmt(total)}</strong></div>
+    <div class="result-row"><span>📊 Interest as % of Loan:</span><strong>${(interest/P*100).toFixed(0)}%</strong></div>
+    <div class="result-row"><span>⏰ You'll Pay For:</span><strong>${years} years (${n} months)</strong></div>
+    <div class="result-row"><span>💼 Remaining Monthly Income:</span><strong>${fmt(income - emi)}</strong></div>
+    
+    <div class="danger-box">
+      <h4>💔 The EMI Trap Reality:</h4>
+      <p>You'll pay <strong>${fmt(interest)}</strong> EXTRA as interest — that's <strong>${(interest/P*100).toFixed(0)}%</strong> more than the loan amount!</p>
+      <p style="margin-top:8px;"><strong>Real trap:</strong> Same ${fmt(emi)}/month invested in mutual funds at 12% for ${years} years would grow to <strong style="color:#00ffb2;">${fmtL(investIfSaved)}</strong> — that's your LOST WEALTH!</p>
+    </div>
+    
+    <div class="warning-box">
+      <h4>🇮🇳 India's EMI Crisis:</h4>
+      <p>According to RBI reports, over <strong>50% of urban Indians</strong> spend more than 40% of their income on EMIs. Many take:</p>
+      <p style="margin-top:8px;">• Home loans (20-30 years) 🏠<br>• Car loans on depreciating assets 🚗<br>• Personal loans at 15-24% interest 💳<br>• Credit card EMIs at 36-42% 🔥<br>• Buy-Now-Pay-Later on gadgets 📱</p>
+      <p style="margin-top:8px;">Result: <strong>Trapped in debt for decades</strong>, unable to save or invest!</p>
+    </div>
+    
+    <div class="insight-box">
+      <h4>💡 How to Avoid the Trap:</h4>
+      <p>✅ Total EMIs should be <strong>&lt;40% of income</strong><br>✅ Emergency fund of 6 months BEFORE taking loans<br>✅ Home loan tenure: max 15 years (not 30!)<br>✅ Never take personal loans for wants<br>✅ Prepay whenever possible to reduce interest<br>✅ Compare with SIP returns before borrowing</p>
+    </div>
+    
+    <div class="success-box">
+      <h4>🎯 Smart Alternative:</h4>
+      <p>Instead of a ${years}-year EMI trap, save ${fmt(emi)}/month first. In just <strong>${Math.ceil(P/emi)} months</strong>, you'll have enough to buy it CASH — with ZERO interest paid!</p>
+    </div>
+  `;
+  document.getElementById('emiOutput').classList.add('show');
+}
+
+// ==================== SCAM DETECTOR GAME ====================
+const scamQs = [
+  {msg: "🚨 SBI Alert: Update your KYC immediately at sbi-kyc-update.xyz or account will be blocked in 24 hours!", isScam: true, why: "Real SBI URL is onlinesbi.sbi. Fake URLs (.xyz, .info) and URGENCY are classic phishing signs.", icon: "🎣"},
+  {msg: "✅ Your Amazon order #IN12345 has shipped. Track at amazon.in/orders. Delivery by Friday.", isScam: false, why: "Legitimate URL (amazon.in), order number, no personal info requested. This is a normal notification.", icon: "📦"},
+  {msg: "🎉 Congratulations! You won ₹25 lakh in KBC lottery! Pay ₹5,000 processing fee via UPI to claim your prize.", isScam: true, why: "KBC NEVER conducts random lotteries. Any 'prize' asking for advance payment is 100% scam. Real prizes don't need fees.", icon: "🎰"},
+  {msg: "💳 PhonePe: ₹500 sent to Ramesh Kumar. UPI Ref: 234567890. Balance: ₹4,500.", isScam: false, why: "Simple transaction confirmation with reference number. No action needed, no links to click.", icon: "💰"},
+  {msg: "🚔 This is Delhi Police. Your Aadhaar is linked to money laundering. Video call NOW at this link or face digital arrest.", isScam: true, why: "'Digital Arrest' is a growing SCAM. Real police NEVER arrest via video calls or ask for money. Disconnect and call 1930.", icon: "👮"},
+  {msg: "🏦 HDFC Bank: Rs. 2,00,000 credit approved instantly! Click here to activate: bit.ly/hdfc-loan-approved", isScam: true, why: "Real banks never send loan approvals via shortened URLs (bit.ly). They call from verified numbers or via app.", icon: "💸"},
+  {msg: "⚡ Electricity Bill Alert: Your connection will be cut in 2 hours. Pay ₹850 immediately via this link.", isScam: true, why: "Fake urgency + unknown link = SCAM. Real electricity boards give 15+ days notice via SMS with account number, not links.", icon: "💡"},
+  {msg: "📚 Congratulations! You've completed 50% of FinVerse Financial Literacy module. Keep learning!", isScam: false, why: "Legitimate app notification about YOUR progress. No links, no info requests, just motivation.", icon: "🎓"}
+];
+let scamIdx = 0, scamPoints = 0;
+
+function startScamGame() {
+  scamIdx = 0;
+  scamPoints = 0;
+  showScamQ();
+}
+
+function showScamQ() {
+  if (scamIdx >= scamQs.length) {
+    const percent = (scamPoints / scamQs.length * 100).toFixed(0);
+    let title = '', msg = '', badge = '';
+    if (scamPoints === scamQs.length) { title = '🏆 SCAM MASTER!'; msg = 'Perfect score! You can protect yourself and your family from any scam.'; badge = '#00ffb2'; }
+    else if (scamPoints >= 6) { title = '🎯 Scam Detective'; msg = 'Excellent! You spotted most scams. Review the ones you missed.'; badge = '#3b82f6'; }
+    else if (scamPoints >= 4) { title = '👍 Good Effort'; msg = 'Keep learning! Scammers are getting smarter. Study cyber safety module.'; badge = '#fb923c'; }
+    else { title = '⚠️ Vulnerable Zone'; msg = 'You need training! Study the Digital Fraud module carefully to protect yourself.'; badge = '#ef4444'; }
+    
+    document.getElementById('scamGame').innerHTML = `
+      <div style="text-align:center; padding:30px 20px; background:${badge}20; border:2px solid ${badge}; border-radius:20px;">
+        <div style="font-size:4rem;">${scamPoints === scamQs.length ? '🏆' : scamPoints >= 6 ? '🎯' : scamPoints >= 4 ? '👍' : '⚠️'}</div>
+        <h2 style="color:${badge}; margin:15px 0;">${title}</h2>
+        <div style="font-size:2rem; font-weight:800; color:${badge}; margin:10px 0;">${scamPoints}/${scamQs.length}</div>
+        <div style="color:#94a3b8;">${percent}% Accuracy</div>
+        <p style="margin-top:15px; color:#fff; line-height:1.6;">${msg}</p>
+      </div>
+      <div class="insight-box" style="margin-top:20px;">
+        <h4>🇮🇳 India's Scam Crisis:</h4>
+        <p>Indians lost <strong>₹1,750 crores</strong> to cyber scams in 2024 alone (I4C data). UPI frauds, digital arrest, and phishing are the top 3. Every 4 minutes, someone in India loses money to online fraud!</p>
+      </div>
+      <div class="warning-box">
+        <h4>🚨 If You Get Scammed:</h4>
+        <p>1. Call <strong>1930</strong> (Cyber Crime Helpline) IMMEDIATELY<br>2. Report at <strong>cybercrime.gov.in</strong><br>3. Freeze your accounts via bank<br>4. Report within 3 days for full liability protection<br>5. File FIR at nearest police station</p>
+      </div>
+    `;
+    document.getElementById('scamScore').textContent = '';
+    return;
+  }
+  
+  const q = scamQs[scamIdx];
+  document.getElementById('scamGame').innerHTML = `
+    <div style="background:rgba(0,0,0,0.3); padding:20px; border-radius:15px; margin-bottom:15px;">
+      <div style="text-align:center; font-size:2.5rem; margin-bottom:10px;">${q.icon}</div>
+      <div style="text-align:center; color:#94a3b8; margin-bottom:15px; font-size:0.85rem;">Question ${scamIdx + 1} of ${scamQs.length}</div>
+      <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); font-size:0.95rem; line-height:1.6;">
+        ${q.msg}
+      </div>
+      <p style="text-align:center; margin:20px 0 15px; color:#fff; font-weight:600;">Is this SCAM or SAFE?</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <button class="calc-btn" style="background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff;" onclick="answerScam(true)">🚨 SCAM</button>
+        <button class="calc-btn" style="background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff;" onclick="answerScam(false)">✅ SAFE</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('scamScore').innerHTML = `Score: <span style="color:#00ffb2;">${scamPoints}</span>/${scamIdx}`;
+}
+
+function answerScam(userAns) {
+  const q = scamQs[scamIdx];
+  const correct = userAns === q.isScam;
+  if (correct) scamPoints++;
+  
+  document.getElementById('scamGame').innerHTML = `
+    <div style="background:${correct ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}; border:2px solid ${correct ? '#22c55e' : '#ef4444'}; padding:20px; border-radius:15px;">
+      <div style="text-align:center; font-size:3rem;">${correct ? '✅' : '❌'}</div>
+      <h3 style="text-align:center; color:${correct ? '#22c55e' : '#ef4444'}; margin:10px 0;">${correct ? 'Correct!' : 'Wrong!'}</h3>
+      <p style="text-align:center; color:#fff; font-weight:600; margin-bottom:15px;">Answer: ${q.isScam ? '🚨 SCAM' : '✅ SAFE'}</p>
+      <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; color:#e2e8f0; line-height:1.6;">
+        <strong style="color:#00ffb2;">💡 Why:</strong> ${q.why}
+      </div>
+      <button class="calc-btn" onclick="nextScam()" style="margin-top:15px;">
+        ${scamIdx + 1 === scamQs.length ? 'View Final Score 🏆' : 'Next Question →'}
+      </button>
+    </div>
+  `;
+}
+
+function nextScam() {
+  scamIdx++;
+  showScamQ();
+}
+</script>
+
+<!-- PART 3 will be added below this line -->
