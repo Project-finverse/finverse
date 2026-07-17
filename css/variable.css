@@ -1,48 +1,249 @@
+/* =========================================================
+   FINVERSE 3.0 DESIGN SYSTEM
+   Version: 1.0
+========================================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 :root{
 
---primary:#00F5A0;
---primary-dark:#00C47A;
-
---secondary:#3B82F6;
-
---purple:#8B5CF6;
-
---gold:#FACC15;
-
---danger:#EF4444;
-
---white:#ffffff;
+/* ===== COLORS ===== */
 
 --bg-primary:#050816;
-
 --bg-secondary:#0B1023;
-
+--bg-tertiary:#111936;
 --bg-card:rgba(255,255,255,.06);
+--bg-card-hover:rgba(255,255,255,.09);
 
---bg-card-hover:rgba(255,255,255,.10);
+--primary:#00F5A0;
+--primary-light:#5FFFD0;
+--primary-dark:#00C781;
 
---text-primary:#F8FAFC;
+--secondary:#3B82F6;
+--secondary-light:#60A5FA;
 
---text-secondary:#CBD5E1;
+--accent:#8B5CF6;
+--accent-light:#A78BFA;
 
+--gold:#FFD166;
+--red:#EF4444;
+--orange:#FB923C;
+
+--text:#F8FAFC;
+--text-light:#CBD5E1;
 --text-muted:#94A3B8;
 
---border:rgba(255,255,255,.08);
+/* ===== GRADIENTS ===== */
 
---radius-small:12px;
+--gradient-primary:
+linear-gradient(
+135deg,
+#00F5A0,
+#3B82F6
+);
 
---radius-medium:20px;
+--gradient-secondary:
+linear-gradient(
+135deg,
+#3B82F6,
+#8B5CF6
+);
 
---radius-large:30px;
+--gradient-gold:
+linear-gradient(
+135deg,
+#FFD166,
+#F59E0B
+);
 
---shadow:0 15px 40px rgba(0,0,0,.35);
+--gradient-dark:
+linear-gradient(
+180deg,
+#050816,
+#0B1023
+);
 
---shadow-hover:0 25px 60px rgba(0,0,0,.45);
+--gradient-card:
+linear-gradient(
+135deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.03)
+);
 
---glow:0 0 40px rgba(0,245,160,.35);
+/* ===== TYPOGRAPHY ===== */
+
+--font-heading:
+'Plus Jakarta Sans',
+sans-serif;
+
+--font-body:
+'Inter',
+sans-serif;
+
+--font-display:
+'Space Grotesk',
+sans-serif;
+
+/* ===== FONT SIZES ===== */
+
+--fs-xs:.75rem;
+--fs-sm:.875rem;
+--fs-md:1rem;
+--fs-lg:1.125rem;
+--fs-xl:1.25rem;
+--fs-2xl:1.5rem;
+--fs-3xl:2rem;
+--fs-4xl:2.8rem;
+--fs-5xl:3.8rem;
+
+/* ===== SPACING ===== */
+
+--space-1:4px;
+--space-2:8px;
+--space-3:12px;
+--space-4:16px;
+--space-5:20px;
+--space-6:24px;
+--space-7:32px;
+--space-8:40px;
+--space-9:56px;
+--space-10:72px;
+--space-11:96px;
+
+/* ===== BORDER ===== */
+
+--radius-sm:10px;
+--radius-md:16px;
+--radius-lg:22px;
+--radius-xl:30px;
+--radius-pill:999px;
+
+/* ===== SHADOWS ===== */
+
+--shadow-small:
+0 6px 20px rgba(0,0,0,.18);
+
+--shadow-medium:
+0 15px 40px rgba(0,0,0,.28);
+
+--shadow-large:
+0 25px 70px rgba(0,0,0,.40);
+
+--shadow-glow:
+0 0 35px rgba(0,245,160,.25);
+
+/* ===== GLASS ===== */
+
+--glass:
+blur(22px);
+
+--glass-border:
+1px solid rgba(255,255,255,.08);
+
+/* ===== TRANSITIONS ===== */
+
+--transition-fast:.25s ease;
+
+--transition:
+.4s cubic-bezier(.4,0,.2,1);
+
+--transition-slow:
+.7s cubic-bezier(.4,0,.2,1);
+
+/* ===== LAYOUT ===== */
 
 --container:1280px;
 
---transition:.35s ease;
+--navbar-height:78px;
+
+}
+
+/* ===== DARK MODE ===== */
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+margin:0;
+
+padding:0;
+
+background:var(--bg-primary);
+
+color:var(--text);
+
+font-family:var(--font-body);
+
+overflow-x:hidden;
+
+}
+
+/* ===== RESET ===== */
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+img{
+
+display:block;
+
+max-width:100%;
+
+}
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+button{
+
+font-family:inherit;
+
+cursor:pointer;
+
+border:none;
+
+outline:none;
+
+}
+
+input{
+
+font-family:inherit;
+
+}
+
+.container{
+
+width:min(
+92%,
+var(--container)
+);
+
+margin:auto;
+
+}
+
+::selection{
+
+background:var(--primary);
+
+color:#000;
 
 }
