@@ -81,3 +81,143 @@ function updateQuizCard(){
     }
 
 }
+/* ==========================================================
+   Rank System
+========================================================== */
+
+function getRank(xp){
+
+    if(xp>=1000) return "👑 Finance Master";
+
+    if(xp>=600) return "💎 Finance Strategist";
+
+    if(xp>=300) return "📈 Smart Investor";
+
+    if(xp>=100) return "🚀 Finance Explorer";
+
+    return "🌱 Finance Beginner";
+
+}
+
+
+
+/* ==========================================================
+   Update Rank
+========================================================== */
+
+function updateRank(){
+
+    const rank=document.getElementById("currentRank");
+
+    if(rank){
+
+        rank.textContent=getRank(progressData.xp);
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   XP Progress Bar
+========================================================== */
+
+function updateXPBar(){
+
+    const bar=document.querySelector(".progress-bar");
+
+    if(!bar) return;
+
+    const percent=
+
+    (progressData.xp%100);
+
+    bar.style.width=
+
+    percent+"%";
+
+}
+
+
+
+/* ==========================================================
+   Achievement System
+========================================================== */
+
+function unlockAchievements(){
+
+    const achievements=[];
+
+    if(progressData.xp>=100){
+
+        achievements.push("🚀 First 100 XP");
+
+    }
+
+    if(progressData.latestQuiz===3){
+
+        achievements.push("🏆 Perfect Quiz");
+
+    }
+
+    if(progressData.streak>=7){
+
+        achievements.push("🔥 7-Day Streak");
+
+    }
+
+    progressData.achievements=achievements;
+
+}
+
+
+
+/* ==========================================================
+   Display Achievements
+========================================================== */
+
+function renderAchievements(){
+
+    const list=
+
+    document.getElementById("achievementList");
+
+    if(!list) return;
+
+    list.innerHTML="";
+
+    progressData.achievements.forEach(item=>{
+
+        const li=document.createElement("li");
+
+        li.textContent=item;
+
+        list.appendChild(li);
+
+    });
+
+}
+/* ==========================================================
+   Initialize Dashboard
+========================================================== */
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+updateProgressDashboard();
+
+updateQuizCard();
+
+updateRank();
+
+updateXPBar();
+
+unlockAchievements();
+
+renderAchievements();
+
+});
