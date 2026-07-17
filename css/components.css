@@ -215,3 +215,26 @@ pointer-events:auto;
 transform:translateY(-4px) scale(1.05);
 
 }
+/* ==========================================
+QUIZ ANSWERS
+========================================== */
+
+.correct{
+
+background:#22c55e !important;
+
+color:#fff !important;
+
+border-color:#22c55e !important;
+
+}
+
+.wrong{
+
+background:#ef4444 !important;
+
+color:#fff !important;
+
+border-color:#ef4444 !important;
+
+}
