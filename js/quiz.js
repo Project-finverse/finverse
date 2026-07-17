@@ -117,3 +117,148 @@ explanation.textContent="";
 }
 
 }
+/* ==========================================================
+   Check Answer
+========================================================== */
+
+function checkAnswer(selectedIndex){
+
+const q = quizData[currentQuestion];
+
+const buttons = optionContainer.querySelectorAll("button");
+
+buttons.forEach(btn=>btn.disabled=true);
+
+buttons.forEach((btn,index)=>{
+
+if(index===q.answer){
+
+btn.classList.add("correct");
+
+}
+
+if(index===selectedIndex && selectedIndex!==q.answer){
+
+btn.classList.add("wrong");
+
+}
+
+});
+
+if(selectedIndex===q.answer){
+
+score++;
+
+addXP(10);
+
+showToast("✅ Correct! +10 XP");
+
+}else{
+
+showToast("❌ Incorrect");
+
+}
+
+document.getElementById("scoreDisplay").textContent=
+
+`${score} / ${quizData.length}`;
+
+if(explanation){
+
+explanation.innerHTML=
+
+`<strong>Explanation:</strong><br>${q.explanation}`;
+
+}
+
+const progress=document.getElementById("quizProgress");
+
+if(progress){
+
+progress.style.width=
+
+`${((currentQuestion+1)/quizData.length)*100}%`;
+
+}
+
+setTimeout(nextQuestion,1800);
+
+}
+
+
+
+/* ==========================================================
+   Next Question
+========================================================== */
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion>=quizData.length){
+
+finishQuiz();
+
+return;
+
+}
+
+loadQuestion();
+
+}
+
+
+
+/* ==========================================================
+   Finish Quiz
+========================================================== */
+
+function finishQuiz(){
+
+const results=document.getElementById("resultsSection");
+
+if(results){
+
+results.style.display="block";
+
+}
+
+const accuracy=
+
+Math.round((score/quizData.length)*100);
+
+document.getElementById("finalScore").textContent=
+
+`${score}/${quizData.length}`;
+
+document.getElementById("finalXP").textContent=
+
+`${score*10} XP`;
+
+document.getElementById("finalAccuracy").textContent=
+
+`${accuracy}%`;
+
+localStorage.setItem(
+
+"latestQuizScore",
+
+score
+
+);
+
+if(score===quizData.length){
+
+showToast("🏆 Perfect Score!");
+
+}
+
+window.scrollTo({
+
+top:document.body.scrollHeight,
+
+behavior:"smooth"
+
+});
+
+}
