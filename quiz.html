@@ -13,6 +13,9 @@ content="width=device-width, initial-scale=1.0">
 <meta name="theme-color"
 content="#07111F">
 
+<meta name="description"
+content="Test your financial knowledge with interactive quizzes.">
+
 <link rel="preconnect"
 href="https://fonts.googleapis.com">
 
@@ -23,59 +26,42 @@ crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
 rel="stylesheet">
 
-<link rel="stylesheet"
-href="css/variables.css">
-
-<link rel="stylesheet"
-href="css/animations.css">
-
-<link rel="stylesheet"
-href="css/components.css">
-
-<link rel="stylesheet"
-href="css/style.css">
-
-<link rel="stylesheet"
-href="css/responsive.css">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
 <body>
 
 <div class="bg-gradient"></div>
-
 <div class="bg-grid"></div>
 
 <div class="bg-orbs">
 
 <div class="orb orb-1"></div>
-
 <div class="orb orb-2"></div>
-
 <div class="orb orb-3"></div>
 
 </div>
+
+
 
 <header class="nav">
 
 <div class="nav-container">
 
 <a href="index.html"
+
 class="nav-logo">
 
-<span class="logo-icon">
-
-₹
-
-</span>
+<span class="logo-icon">₹</span>
 
 <span class="logo-text">
 
-Fin<span class="accent">
-
-Verse
-
-</span>
+Fin<span class="accent">Verse</span>
 
 </span>
 
@@ -101,6 +87,12 @@ Progress
 
 </a>
 
+<a href="simulators.html">
+
+Financial Lab
+
+</a>
+
 </nav>
 
 <div class="nav-actions">
@@ -113,11 +105,11 @@ Back
 
 </a>
 
-<a href="#"
+<a href="progress.html"
 
 class="btn btn-primary">
 
-10 XP
+Dashboard
 
 </a>
 
@@ -141,11 +133,11 @@ class="btn btn-primary">
 
 <h1 class="hero-title">
 
-Test Your
+Challenge Your
 
 <span class="gradient-text">
 
-Knowledge
+Financial Knowledge
 
 </span>
 
@@ -153,11 +145,11 @@ Knowledge
 
 <p class="hero-desc">
 
-Answer questions based on the lesson.
-
-Earn XP,
+Answer interactive questions,
+earn XP,
 unlock achievements,
-and improve your financial literacy.
+and strengthen your understanding
+of personal finance.
 
 </p>
 
@@ -167,7 +159,7 @@ and improve your financial literacy.
 
 <h3>
 
-10
+3
 
 </h3>
 
@@ -183,7 +175,7 @@ Questions
 
 <h3>
 
-10 XP
++30 XP
 
 </h3>
 
@@ -199,13 +191,13 @@ Reward
 
 <h3>
 
-8 min
+Easy
 
 </h3>
 
 <p>
 
-Duration
+Difficulty
 
 </p>
 
@@ -215,13 +207,13 @@ Duration
 
 <h3>
 
-🏆
+100%
 
 </h3>
 
 <p>
 
-Badge
+Interactive
 
 </p>
 
@@ -241,9 +233,9 @@ Badge
 
 <div class="card card-featured">
 
-<h3>
+<h3 id="questionCount">
 
-Question 1 of 10
+Question 1 of 3
 
 </h3>
 
@@ -251,246 +243,156 @@ Question 1 of 10
 
 <div class="progress-bar"
 
-style="--w:10%">
+id="quizProgress"
+
+style="width:33%;">
 
 </div>
 
 </div>
 
-<h2 style="margin-top:30px;">
+<h2
 
-Which of these is the primary function of money?
+id="question"
+
+style="margin-top:30px;">
+
+Loading Question...
 
 </h2>
 
-<div class="features-grid"
+<div
+
+id="options"
+
+class="features-grid"
+
 style="margin-top:30px;">
-
-<button class="btn btn-glass">
-
-A. Entertainment
-
-</button>
-
-<button class="btn btn-glass">
-
-B. Medium of Exchange
-
-</button>
-
-<button class="btn btn-glass">
-
-C. Weather Forecast
-
-</button>
-
-<button class="btn btn-glass">
-
-D. Mobile Network
-
-</button>
 
 </div>
 
-<p style="margin-top:25px;">
+<p
 
-💡 Select one answer to continue.
+id="explanation"
+
+style="margin-top:25px;">
 
 </p>
 
 </div>
-<!-- EXPLANATION CARD -->
-
-<div class="card" style="margin-top:30px;">
-
-    <div class="card-icon">
-
-        💡
-
-    </div>
-
-    <h3>
-
-        Why is the answer B?
-
-    </h3>
-
-    <p>
-
-        Money acts as a <strong>Medium of Exchange</strong>, making it
-        possible to buy and sell goods and services without relying on
-        the barter system.
-
-    </p>
-
-</div>
-
-
-
-<!-- QUIZ TIPS -->
-
-<div class="card" style="margin-top:30px;">
-
-    <div class="card-icon">
-
-        🎯
-
-    </div>
-
-    <h3>
-
-        Quiz Tips
-
-    </h3>
-
-    <ul>
-
-        <li>Read every question carefully.</li>
-
-        <li>Think before selecting an answer.</li>
-
-        <li>Remember the concepts from the lesson.</li>
-
-        <li>Don't rush—accuracy matters more than speed.</li>
-
-    </ul>
-
-</div>
-
-
-
-<!-- PERFORMANCE PREVIEW -->
+<!-- LIVE QUIZ DASHBOARD -->
 
 <div class="dashboard-grid" style="margin-top:40px;">
 
-    <div class="card card-featured">
+    <div class="card">
 
         <div class="card-icon">
 
-            📈
+            ⭐
 
         </div>
 
         <h3>
 
-            Current Performance
+            XP Reward
 
         </h3>
 
+        <h2 class="xp-value">
+
+            0
+
+        </h2>
+
         <p>
 
-            Your quiz statistics will update as you answer
-            each question.
+            Earn XP for every correct answer.
 
         </p>
 
-        <div class="progress">
+    </div>
 
-            <div class="progress-bar"
+    <div class="card">
 
-            style="--w:10%">
+        <div class="card-icon">
 
-            </div>
+            🎯
 
         </div>
 
-        <span class="progress-label">
+        <h3>
 
-            Quiz Progress • 10%
+            Score
 
-        </span>
+        </h3>
+
+        <h2 id="scoreDisplay">
+
+            0 / 3
+
+        </h2>
+
+        <p>
+
+            Correct Answers
+
+        </p>
 
     </div>
 
-    <div class="stats-grid">
+    <div class="card">
 
-        <div class="mini-card">
+        <div class="card-icon">
 
-            <div class="mini-icon">
-
-                ✅
-
-            </div>
-
-            <h4>
-
-                0
-
-            </h4>
-
-            <p>
-
-                Correct
-
-            </p>
+            🔥
 
         </div>
 
-        <div class="mini-card">
+        <h3>
 
-            <div class="mini-icon">
+            Streak
 
-                ❌
+        </h3>
 
-            </div>
+        <h2 class="streak-value">
 
-            <h4>
+            1
 
-                0
+        </h2>
 
-            </h4>
+        <p>
 
-            <p>
+            Daily Learning
 
-                Incorrect
+        </p>
 
-            </p>
+    </div>
 
-        </div>
+    <div class="card">
 
-        <div class="mini-card">
+        <div class="card-icon">
 
-            <div class="mini-icon">
-
-                ⭐
-
-            </div>
-
-            <h4>
-
-                0 XP
-
-            </h4>
-
-            <p>
-
-                Earned
-
-            </p>
+            ⏱️
 
         </div>
 
-        <div class="mini-card">
+        <h3>
 
-            <div class="mini-icon">
+            Time
 
-                ⏱️
+        </h3>
 
-            </div>
+        <h2 id="timer">
 
-            <h4>
+            60
 
-                08:00
+        </h2>
 
-            </h4>
+        <p>
 
-            <p>
+            Seconds Left
 
-                Time Left
-
-            </p>
-
-        </div>
+        </p>
 
     </div>
 
@@ -498,106 +400,274 @@ D. Mobile Network
 
 
 
-<!-- QUESTION NAVIGATION -->
 
-<div class="hero-cta"
 
-style="margin-top:40px;justify-content:center;">
-
-    <a href="lesson.html"
-
-    class="btn btn-glass btn-lg">
-
-        ← Lesson
-
-    </a>
-
-    <button class="btn btn-primary btn-lg">
-
-        Submit Answer
-
-    </button>
-
-    <button class="btn btn-glass btn-lg">
-
-        Next Question →
-
-    </button>
-
-</div>
-<!-- QUIZ RESULTS -->
+<!-- ACHIEVEMENT PREVIEW -->
 
 <section class="section">
 
-    <div class="container">
+<div class="container">
 
-        <div class="card card-featured">
+<div class="section-header">
 
-            <div class="card-icon">
+<span class="eyebrow">
 
-                🏆
+🏆 Rewards
 
-            </div>
+</span>
 
-            <h2>
+<h2 class="section-title">
 
-                Quiz Completed!
+Quiz
 
-            </h2>
+<span class="gradient-text">
 
-            <p>
+Achievements
 
-                Congratulations! You've completed this quiz.
-                Review your performance below and continue
-                building your financial knowledge.
+</span>
 
-            </p>
+</h2>
 
-            <div class="hero-stats">
+</div>
 
-                <div class="stat">
+<div class="features-grid">
 
-                    <h3>9/10</h3>
+<div class="feature">
 
-                    <p>Score</p>
+<div class="feature-icon">
 
-                </div>
+🥉
 
-                <div class="stat">
+</div>
 
-                    <h3>90%</h3>
+<h3>
 
-                    <p>Accuracy</p>
+Bronze Learner
 
-                </div>
+</h3>
 
-                <div class="stat">
+<p>
 
-                    <h3>+50 XP</h3>
+Finish your first quiz.
 
-                    <p>Reward</p>
+</p>
 
-                </div>
+</div>
 
-                <div class="stat">
+<div class="feature">
 
-                    <h3>🥇</h3>
+<div class="feature-icon">
 
-                    <p>Gold Badge</p>
+🥈
 
-                </div>
+</div>
 
-            </div>
+<h3>
 
-        </div>
+Quiz Master
 
-    </div>
+</h3>
+
+<p>
+
+Score above 80%.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+
+🥇
+
+</div>
+
+<h3>
+
+Perfect Score
+
+</h3>
+
+<p>
+
+Answer every question correctly.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="feature-icon">
+
+🔥
+
+</div>
+
+<h3>
+
+Consistency
+
+</h3>
+
+<p>
+
+Complete quizzes for 7 days.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
 
-<!-- PERFORMANCE SUMMARY -->
+
+
+<!-- RESULTS -->
+
+<section
+
+class="section"
+
+id="resultsSection"
+
+style="display:none;">
+
+<div class="container">
+
+<div class="card card-featured">
+
+<div class="card-icon">
+
+🎉
+
+</div>
+
+<h2>
+
+Quiz Completed!
+
+</h2>
+
+<p>
+
+Excellent work.
+
+Here is your final performance.
+
+</p>
+
+<div class="hero-stats">
+
+<div class="stat">
+
+<h3
+
+id="finalScore">
+
+0/3
+
+</h3>
+
+<p>
+
+Score
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3
+
+id="finalXP">
+
+0 XP
+
+</h3>
+
+<p>
+
+XP Earned
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3
+
+id="finalAccuracy">
+
+0%
+
+</h3>
+
+<p>
+
+Accuracy
+
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3>
+
+🏆
+
+</h3>
+
+<p>
+
+Achievement
+
+</p>
+
+</div>
+
+</div>
+
+<div class="hero-cta">
+
+<a
+
+href="progress.html"
+
+class="btn btn-primary btn-lg">
+
+View Dashboard
+
+</a>
+
+<a
+
+href="modules.html"
+
+class="btn btn-glass btn-lg">
+
+Continue Learning
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- QUIZ TIPS -->
 
 <section class="section">
 
@@ -607,13 +677,19 @@ style="margin-top:40px;justify-content:center;">
 
             <span class="eyebrow">
 
-                📊 Performance Summary
+                💡 Learning Tips
 
             </span>
 
             <h2 class="section-title">
 
-                Keep Improving
+                Improve Every
+
+                <span class="gradient-text">
+
+                    Attempt
+
+                </span>
 
             </h2>
 
@@ -623,14 +699,22 @@ style="margin-top:40px;justify-content:center;">
 
             <div class="feature">
 
-                <div class="feature-icon">✅</div>
+                <div class="feature-icon">
 
-                <h3>Strengths</h3>
+                    📖
+
+                </div>
+
+                <h3>
+
+                    Review Lessons
+
+                </h3>
 
                 <p>
 
-                    Excellent understanding of
-                    budgeting and basic finance.
+                    Go through the lesson before
+                    attempting the quiz again.
 
                 </p>
 
@@ -638,14 +722,22 @@ style="margin-top:40px;justify-content:center;">
 
             <div class="feature">
 
-                <div class="feature-icon">📚</div>
+                <div class="feature-icon">
 
-                <h3>Revision</h3>
+                    🎯
+
+                </div>
+
+                <h3>
+
+                    Understand Concepts
+
+                </h3>
 
                 <p>
 
-                    Review inflation and taxation
-                    concepts for even better scores.
+                    Focus on understanding rather
+                    than memorizing answers.
 
                 </p>
 
@@ -653,14 +745,22 @@ style="margin-top:40px;justify-content:center;">
 
             <div class="feature">
 
-                <div class="feature-icon">🚀</div>
+                <div class="feature-icon">
 
-                <h3>Next Step</h3>
+                    🔥
+
+                </div>
+
+                <h3>
+
+                    Maintain Your Streak
+
+                </h3>
 
                 <p>
 
-                    Unlock the Banking module
-                    and continue earning XP.
+                    Practice every day to build
+                    strong financial habits.
 
                 </p>
 
@@ -674,7 +774,7 @@ style="margin-top:40px;justify-content:center;">
 
 
 
-<!-- CTA -->
+<!-- FINAL CTA -->
 
 <section class="cta-section">
 
@@ -684,17 +784,17 @@ style="margin-top:40px;justify-content:center;">
 
             <span class="badge">
 
-                🎉 Great Job!
+                🚀 Keep Growing
 
             </span>
 
             <h2>
 
-                Ready For Your
+                Small Lessons,
 
                 <span class="gradient-text">
 
-                    Next Module?
+                    Big Financial Impact
 
                 </span>
 
@@ -702,27 +802,27 @@ style="margin-top:40px;justify-content:center;">
 
             <p>
 
-                Continue your learning journey,
-                collect achievements, and master
-                real-world financial skills.
+                Every quiz completed improves your
+                financial confidence and moves you
+                one step closer to mastering money.
 
             </p>
 
             <div class="hero-cta">
 
-                <a href="progress.html"
+                <a href="modules.html"
 
                 class="btn btn-primary btn-lg">
 
-                    View Progress
+                    Explore Modules
 
                 </a>
 
-                <a href="modules.html"
+                <a href="progress.html"
 
                 class="btn btn-glass btn-lg">
 
-                    Explore Modules
+                    View Progress
 
                 </a>
 
@@ -736,6 +836,8 @@ style="margin-top:40px;justify-content:center;">
 
 
 
+<!-- FOOTER -->
+
 <footer class="footer">
 
     <div class="container footer-grid">
@@ -744,7 +846,11 @@ style="margin-top:40px;justify-content:center;">
 
             <div class="nav-logo">
 
-                <span class="logo-icon">₹</span>
+                <span class="logo-icon">
+
+                    ₹
+
+                </span>
 
                 <span class="logo-text">
 
@@ -764,31 +870,50 @@ style="margin-top:40px;justify-content:center;">
 
         <div>
 
-            <h4>Learning</h4>
+            <h4>
+
+                Learn
+
+            </h4>
 
             <a href="modules.html">Modules</a>
+
             <a href="lesson.html">Lessons</a>
+
+            <a href="quiz.html">Quiz</a>
+
+        </div>
+
+        <div>
+
+            <h4>
+
+                Explore
+
+            </h4>
+
             <a href="progress.html">Progress</a>
 
-        </div>
+            <a href="simulators.html">Financial Lab</a>
 
-        <div>
-
-            <h4>Company</h4>
-
-            <a href="about.html">About</a>
             <a href="pricing.html">Pricing</a>
-            <a href="index.html">Home</a>
 
         </div>
 
         <div>
 
-            <h4>Connect</h4>
+            <h4>
+
+                Connect
+
+            </h4>
 
             <a href="#">📧 hello@finverse.in</a>
+
             <a href="#">💼 LinkedIn</a>
+
             <a href="#">📸 Instagram</a>
+
             <a href="#">▶️ YouTube</a>
 
         </div>
@@ -797,8 +922,10 @@ style="margin-top:40px;justify-content:center;">
 
     <div class="footer-bottom">
 
-        © 2026 <strong>FinVerse</strong>. Built with ❤️ in India by
-        <strong>Saksham Gupta</strong> & <strong>Archit Jain</strong>.
+        © 2026 <strong>FinVerse</strong>.
+        Built with ❤️ in India by
+        <strong>Saksham Gupta</strong> &
+        <strong>Archit Jain</strong>.
 
     </div>
 
@@ -808,4 +935,5 @@ style="margin-top:40px;justify-content:center;">
 <script src="js/quiz.js"></script>
 
 </body>
+
 </html>
