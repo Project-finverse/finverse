@@ -1,0 +1,48 @@
+:root{
+
+--primary:#00F5A0;
+--primary-dark:#00C47A;
+
+--secondary:#3B82F6;
+
+--purple:#8B5CF6;
+
+--gold:#FACC15;
+
+--danger:#EF4444;
+
+--white:#ffffff;
+
+--bg-primary:#050816;
+
+--bg-secondary:#0B1023;
+
+--bg-card:rgba(255,255,255,.06);
+
+--bg-card-hover:rgba(255,255,255,.10);
+
+--text-primary:#F8FAFC;
+
+--text-secondary:#CBD5E1;
+
+--text-muted:#94A3B8;
+
+--border:rgba(255,255,255,.08);
+
+--radius-small:12px;
+
+--radius-medium:20px;
+
+--radius-large:30px;
+
+--shadow:0 15px 40px rgba(0,0,0,.35);
+
+--shadow-hover:0 25px 60px rgba(0,0,0,.45);
+
+--glow:0 0 40px rgba(0,245,160,.35);
+
+--container:1280px;
+
+--transition:.35s ease;
+
+}
