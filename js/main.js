@@ -137,3 +137,156 @@ function updateDashboard(){
     });
 
 }
+/* ==========================================================
+   Toast Notifications
+   ========================================================== */
+
+function showToast(message) {
+
+    let toast = document.getElementById("finverse-toast");
+
+    if (!toast) {
+
+        toast = document.createElement("div");
+
+        toast.id = "finverse-toast";
+
+        toast.className = "toast";
+
+        document.body.appendChild(toast);
+
+    }
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+
+/* ==========================================================
+   Animated Counters
+   ========================================================== */
+
+function animateCounter(element, target) {
+
+    let current = 0;
+
+    const increment = Math.max(1, Math.ceil(target / 60));
+
+    const timer = setInterval(() => {
+
+        current += increment;
+
+        if (current >= target) {
+
+            current = target;
+
+            clearInterval(timer);
+
+        }
+
+        element.textContent = current;
+
+    }, 20);
+
+}
+
+
+
+document.querySelectorAll("[data-counter]")
+
+.forEach(counter => {
+
+    animateCounter(
+
+        counter,
+
+        Number(counter.dataset.counter)
+
+    );
+
+});
+
+
+
+/* ==========================================================
+   Scroll Progress
+   ========================================================== */
+
+const progressBar =
+
+document.querySelector(".reading-progress-bar");
+
+if (progressBar) {
+
+    window.addEventListener("scroll", () => {
+
+        const total =
+
+        document.documentElement.scrollHeight -
+
+        window.innerHeight;
+
+        const percent =
+
+        (window.scrollY / total) * 100;
+
+        progressBar.style.width = percent + "%";
+
+    });
+
+}
+
+
+
+/* ==========================================================
+   Back To Top Button
+   ========================================================== */
+
+let topButton = document.getElementById("backToTop");
+
+if (!topButton) {
+
+    topButton = document.createElement("button");
+
+    topButton.id = "backToTop";
+
+    topButton.innerHTML = "↑";
+
+    document.body.appendChild(topButton);
+
+}
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 400) {
+
+        topButton.classList.add("show");
+
+    } else {
+
+        topButton.classList.remove("show");
+
+    }
+
+});
+
+topButton.addEventListener("click", () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+});
