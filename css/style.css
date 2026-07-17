@@ -1,0 +1,94 @@
+@import url("variables.css");
+@import url("components.css");
+@import url("animations.css");
+@import url("responsive.css");
+
+/* =========================
+   RESET
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+background:var(--bg-primary);
+
+color:var(--text-primary);
+
+font-family:"Inter",sans-serif;
+
+overflow-x:hidden;
+
+min-height:100vh;
+
+}
+
+/* Images */
+
+img{
+
+display:block;
+
+max-width:100%;
+
+}
+
+/* Links */
+
+a{
+
+text-decoration:none;
+
+color:inherit;
+
+}
+
+/* Lists */
+
+ul{
+
+list-style:none;
+
+}
+
+/* Buttons */
+
+button{
+
+border:none;
+
+background:none;
+
+font:inherit;
+
+cursor:pointer;
+
+}
+
+/* Container */
+
+.container{
+
+width:min(92%,1280px);
+
+margin:auto;
+
+}
+
+/* Text Selection */
+
+::selection{
+
+background:var(--primary);
+
+color:#000;
+
+}
