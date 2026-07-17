@@ -685,3 +685,49 @@ function getGrade(percent) {
   if (percent >= 50) return {grade: 'C', label: 'Average', color: '#fb923c'};
   if (percent >= 40) return {grade: 'D', label: 'Below Average', color: '#f97316'};
   return {grade: 'F', label: 'Needs Improvement', color: '#ef4444'};
+// ===== FinVerse UI =====
+
+// Sticky nav shadow on scroll
+const nav = document.getElementById('nav');
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+}
+
+// Mobile menu
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+const actions = document.querySelector('.nav-actions');
+
+if (toggle && links && actions) {
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('open');
+    links.classList.toggle('mobile-open');
+    actions.classList.toggle('mobile-open');
+  });
+
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      toggle.classList.remove('open');
+      links.classList.remove('mobile-open');
+      actions.classList.remove('mobile-open');
+    });
+  });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.card, .mini-card, .action-card, .feature, .cta-card, .section-header')
+  .forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
