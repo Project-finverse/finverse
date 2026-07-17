@@ -262,3 +262,12 @@ behavior:"smooth"
 });
 
 }
+/* ==========================================================
+Initialize
+========================================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+loadQuestion();
+
+});
