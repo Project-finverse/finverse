@@ -1,1 +1,122 @@
-/* FinVerse Responsive */
+/* FinVerse 3.0 - components.css (Starter Production File)
+   This file contains the shared UI components.
+*/
+
+body{
+  background:var(--gradient-dark);
+}
+
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:var(--glass);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(5,8,22,.65);
+}
+
+.nav-container{
+  width:min(92%,var(--container));
+  margin:auto;
+  min-height:var(--navbar-height);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-display);
+  font-size:1.4rem;
+  font-weight:700;
+}
+
+.logo-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--gradient-primary);
+  color:#04120d;
+  box-shadow:var(--shadow-glow);
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 24px;
+  border-radius:999px;
+  transition:var(--transition);
+  font-weight:700;
+}
+
+.btn-primary{
+  background:var(--gradient-primary);
+  color:#04120d;
+}
+
+.btn-primary:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-glow);
+}
+
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.15);
+  color:var(--text);
+}
+
+.hero{
+  padding:110px 0 80px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:linear-gradient(135deg,#00F5A022,#3B82F622,#8B5CF622);
+  filter:blur(90px);
+  animation:aurora 12s linear infinite;
+}
+
+.hero-title{
+  position:relative;
+  z-index:2;
+  font-family:var(--font-heading);
+  font-size:clamp(2.6rem,8vw,5rem);
+  line-height:1;
+}
+
+.hero-desc{
+  position:relative;
+  z-index:2;
+  max-width:700px;
+  color:var(--text-light);
+  margin:24px 0;
+}
+
+.card{
+  background:var(--bg-card);
+  border:var(--glass-border);
+  backdrop-filter:var(--glass);
+  border-radius:24px;
+  padding:24px;
+  transition:var(--transition);
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  background:var(--bg-card-hover);
+}
+
+.footer{
+  padding:60px 0;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--text-muted);
+}
