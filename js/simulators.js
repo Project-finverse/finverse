@@ -1407,3 +1407,41 @@ window.addEventListener("load",()=>{
 document.body.classList.add("loaded");
 
 });
+/* =====================================
+   Report Generator
+===================================== */
+
+function updateReport(){
+
+    const savings =
+        dashboard.savings || 0;
+
+    const worth =
+        dashboard.wealth || 0;
+
+    const score =
+        dashboard.health || 0;
+
+    if($("reportSavings"))
+        $("reportSavings").textContent =
+        formatINR(savings);
+
+    if($("reportWorth"))
+        $("reportWorth").textContent =
+        formatINR(worth);
+
+    if($("reportScore"))
+        $("reportScore").textContent =
+        score + "/100";
+
+}
+
+document
+.getElementById("downloadReport")
+?.addEventListener("click",()=>{
+
+updateReport();
+
+window.print();
+
+});
