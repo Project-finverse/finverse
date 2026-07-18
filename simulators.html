@@ -161,3 +161,171 @@ function calculateCompound(){
     }
 
 }
+/* ==========================================================
+   EMI Calculator
+========================================================== */
+
+function calculateEMI() {
+
+    const loan = Number(document.getElementById("loan")?.value);
+    const rate = Number(document.getElementById("loanRate")?.value) / 1200;
+    const years = Number(document.getElementById("loanYears")?.value);
+
+    const output = document.getElementById("emiResult");
+
+    if (!output) return;
+
+    if (isNaN(loan) || isNaN(rate) || isNaN(years) ||
+        loan <= 0 || years <= 0) {
+
+        output.textContent = "Please enter valid values.";
+        return;
+    }
+
+    const months = years * 12;
+
+    const emi =
+        (loan * rate * Math.pow(1 + rate, months)) /
+        (Math.pow(1 + rate, months) - 1);
+
+    output.textContent =
+        "Monthly EMI: " + formatINR(Math.round(emi));
+
+    if (typeof addXP === "function") {
+
+        addXP(5);
+
+    }
+
+    saveSimulationData();
+
+}
+
+
+
+/* ==========================================================
+   Savings Goal Planner
+========================================================== */
+
+function calculateGoal() {
+
+    const goal =
+        Number(document.getElementById("goalAmount")?.value);
+
+    const months =
+        Number(document.getElementById("goalMonths")?.value);
+
+    const output =
+        document.getElementById("goalResult");
+
+    if (!output) return;
+
+    if (isNaN(goal) || isNaN(months) ||
+        goal <= 0 || months <= 0) {
+
+        output.textContent = "Please enter valid values.";
+        return;
+    }
+
+    const monthly = goal / months;
+
+    output.textContent =
+        "Monthly Saving Required: " +
+        formatINR(Math.ceil(monthly));
+
+    if (typeof addXP === "function") {
+
+        addXP(5);
+
+    }
+
+    saveSimulationData();
+
+}
+
+
+
+/* ==========================================================
+   Save & Restore
+========================================================== */
+
+function saveSimulationData() {
+
+    const data = {
+
+        income: document.getElementById("income")?.value || "",
+
+        expenses: document.getElementById("expenses")?.value || "",
+
+        principal: document.getElementById("principal")?.value || "",
+
+        rate: document.getElementById("rate")?.value || "",
+
+        years: document.getElementById("years")?.value || "",
+
+        loan: document.getElementById("loan")?.value || "",
+
+        loanRate: document.getElementById("loanRate")?.value || "",
+
+        loanYears: document.getElementById("loanYears")?.value || "",
+
+        goalAmount: document.getElementById("goalAmount")?.value || "",
+
+        goalMonths: document.getElementById("goalMonths")?.value || ""
+
+    };
+
+    localStorage.setItem(
+        "finverseSimulations",
+        JSON.stringify(data)
+    );
+
+}
+
+
+
+function restoreSimulationData() {
+
+    const saved = JSON.parse(
+        localStorage.getItem("finverseSimulations")
+    );
+
+    if (!saved) return;
+
+    Object.keys(saved).forEach(id => {
+
+        const element = document.getElementById(id);
+
+        if (element) {
+
+            element.value = saved[id];
+
+        }
+
+    });
+
+}
+
+
+
+/* ==========================================================
+   Event Listeners
+========================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    restoreSimulationData();
+
+    document.getElementById("budgetBtn")
+        ?.addEventListener("click", calculateBudget);
+
+    document.getElementById("compoundBtn")
+        ?.addEventListener("click", calculateCompound);
+
+    document.getElementById("emiBtn")
+        ?.addEventListener("click", calculateEMI);
+
+    document.getElementById("goalBtn")
+        ?.addEventListener("click", calculateGoal);
+
+});
