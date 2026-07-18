@@ -219,7 +219,7 @@ updateXPBar();
 unlockAchievements();
 
 renderAchievements();
-
+loadCharts();
 });
 /* ==========================================================
    Charts
