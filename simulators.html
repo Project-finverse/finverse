@@ -4,94 +4,112 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<title>FinVerse Financial Lab</title>
 
-<title>Financial Lab | FinVerse</title>
+<meta name="description"
+content="Practice finance with interactive simulations.">
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/components.css">
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect"
 href="https://fonts.gstatic.com"
 crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap"
 rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="css/style.css">
+
+<link
+rel="stylesheet"
+href="css/simulators.css">
+
+<script
+src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
 
 </head>
 
 <body>
 
-<header class="navbar">
+<!-- ========================= -->
+<!-- Animated Background -->
+<!-- ========================= -->
 
-<div class="container nav-container">
+<div class="aurora">
 
-<a href="index.html"
-class="logo">
+<div class="orb orb1"></div>
 
-FinVerse
+<div class="orb orb2"></div>
 
-</a>
+<div class="orb orb3"></div>
 
-<nav>
+<div class="grid-overlay"></div>
 
-<ul class="nav-links">
-
-<li>
-<a href="index.html">
-Home
-</a>
-</li>
-
-<li>
-<a href="quiz.html">
-Quiz
-</a>
-</li>
-
-<li>
-<a href="progress.html">
-Progress
-</a>
-</li>
-
-<li>
-<a href="simulators.html"
-class="active">
-Financial Lab
-</a>
-</li>
-
-</ul>
-
-</nav>
+<div class="noise"></div>
 
 </div>
 
+<!-- ========================= -->
+<!-- Navbar -->
+<!-- ========================= -->
+
+<header class="navbar">
+
+<div class="logo">
+
+<span>◈</span>
+
+FinVerse
+
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="modules.html">Modules</a>
+
+<a href="quiz.html">Quiz</a>
+
+<a href="progress.html">Progress</a>
+
+<a class="active"
+href="simulators.html">
+
+Financial Lab
+
+</a>
+
+</nav>
+
 </header>
 
-<section class="hero hero-small">
+<!-- ========================= -->
+<!-- Hero -->
+<!-- ========================= -->
 
-<div class="container">
+<section class="hero">
 
-<div class="hero-badge">
+<div class="hero-content">
 
-💰 Financial Lab
+<div class="badge">
+
+FINVERSE FINANCIAL LAB
 
 </div>
 
 <h1>
 
-Interactive
+Master Your
 
-<span class="gradient-text">
+<span>
 
-Financial Simulators
+Financial Future
 
 </span>
 
@@ -99,9 +117,98 @@ Financial Simulators
 
 <p>
 
-Master budgeting, investing,
-EMIs and savings with
-interactive calculators.
+Experiment with realistic financial scenarios,
+visualize outcomes and build lifelong money skills.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#simulators"
+class="primary-btn">
+
+Start Simulating
+
+</a>
+
+<a href="modules.html"
+class="secondary-btn">
+
+Explore Modules
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- Statistics -->
+<!-- ========================= -->
+
+<section class="stats">
+
+<div class="stat-card">
+
+<h2 id="statTools">
+
+8
+
+</h2>
+
+<p>
+
+Financial Tools
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="statUsers">
+
+100%
+
+</h2>
+
+<p>
+
+Free Learning
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="statInstant">
+
+∞
+
+</h2>
+
+<p>
+
+Practice Scenarios
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="statSpeed">
+
+24/7
+
+</h2>
+
+<p>
+
+Instant Results
 
 </p>
 
@@ -109,343 +216,1067 @@ interactive calculators.
 
 </section>
 
-<section class="section">
+<!-- ========================= -->
+<!-- Dashboard -->
+<!-- ========================= -->
 
-<div class="container">
+<section class="dashboard">
 
-<div class="grid-2">
+<div class="dashboard-card">
 
+<h3>
+
+Financial Health
+
+</h3>
+
+<div class="score-circle">
+
+<span id="healthScore">
+
+92
+
+</span>
+
+</div>
+
+<p>
+
+Excellent
+
+</p>
+
+</div>
+
+<div class="dashboard-card">
+
+<h3>
+
+Monthly Savings
+
+</h3>
+
+<h2 id="dashboardSavings">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="dashboard-card">
+
+<h3>
+
+Estimated Wealth
+
+</h3>
+
+<h2 id="dashboardWealth">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="dashboard-card">
+
+<h3>
+
+Debt Level
+
+</h3>
+
+<h2 id="dashboardDebt">
+
+₹0
+
+</h2>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- AI Coach -->
+<!-- ========================= -->
+
+<section class="coach">
+
+<div class="coach-avatar">
+
+🤖
+
+</div>
+
+<div class="coach-text">
+
+<h2>
+
+FinVerse Coach
+
+</h2>
+
+<p id="coachMessage">
+
+Welcome to Financial Lab.
+
+Run a simulator and I'll analyse
+your financial decisions and
+provide personalised tips.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- Simulator Grid -->
+<!-- ========================= -->
+
+<section
+id="simulators"
+class="simulator-grid">
+<!-- ===================================================== -->
 <!-- Budget Planner -->
+<!-- ===================================================== -->
 
-<div class="glass-card">
+<div class="sim-card" id="budgetCard">
 
-<h2>
+    <div class="card-top">
 
-📒 Budget Planner
+        <div class="icon">💰</div>
 
-</h2>
+        <div>
 
-<p>
+            <h2>Budget Planner</h2>
 
-Calculate monthly savings.
+            <p>Track income, expenses and monthly savings.</p>
 
-</p>
+        </div>
 
-<div class="form-group">
+    </div>
 
-<label>
+    <div class="input-group">
 
-Monthly Income
+        <label>Monthly Income</label>
 
-</label>
+        <input
+            type="number"
+            id="income"
+            placeholder="₹ 50,000">
 
-<input
-type="number"
-id="income"
-placeholder="50000">
+    </div>
+
+    <div class="input-group">
+
+        <label>Monthly Expenses</label>
+
+        <input
+            type="number"
+            id="expenses"
+            placeholder="₹ 30,000">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="budgetBtn">
+
+        Calculate Budget
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Monthly Savings</h4>
+
+        <h2 id="budgetResult">
+
+            ₹0
+
+        </h2>
+
+        <div class="progress">
+
+            <div
+                id="budgetProgress"
+                class="progress-fill">
+
+            </div>
+
+        </div>
+
+        <p id="budgetTip">
+
+            Enter values to analyse your finances.
+
+        </p>
+
+    </div>
 
 </div>
 
-<div class="form-group">
-
-<label>
-
-Monthly Expenses
-
-</label>
-
-<input
-type="number"
-id="expenses"
-placeholder="30000">
-
-</div>
-
-<button
-id="budgetBtn"
-class="btn btn-primary">
-
-Calculate
-
-</button>
-
-<p
-id="budgetResult"
-class="result-box">
-
-Result appears here
-
-</p>
-
-</div>
-
+<!-- ===================================================== -->
 <!-- Compound Interest -->
+<!-- ===================================================== -->
 
-<div class="glass-card">
+<div class="sim-card" id="compoundCard">
 
-<h2>
+    <div class="card-top">
 
-📈 Compound Interest
+        <div class="icon">📈</div>
 
-</h2>
+        <div>
 
-<p>
+            <h2>Compound Interest</h2>
 
-Investment Growth
+            <p>Visualise long-term investment growth.</p>
 
-</p>
+        </div>
 
-<div class="form-group">
+    </div>
 
-<label>
+    <div class="input-group">
 
-Principal Amount
+        <label>Investment</label>
 
-</label>
+        <input
+            id="principal"
+            type="number"
+            placeholder="₹100000">
 
-<input
-type="number"
-id="principal"
-placeholder="100000">
+    </div>
+
+    <div class="input-group">
+
+        <label>Annual Return (%)</label>
+
+        <input
+            id="rate"
+            type="number"
+            placeholder="12">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Years</label>
+
+        <input
+            id="years"
+            type="number"
+            placeholder="20">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="compoundBtn">
+
+        Calculate Growth
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Future Value</h4>
+
+        <h2 id="compoundResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="compoundChart"
+            height="170">
+
+        </canvas>
+
+    </div>
 
 </div>
 
-<div class="form-group">
-
-<label>
-
-Interest Rate %
-
-</label>
-
-<input
-type="number"
-id="rate"
-placeholder="12">
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-Years
-
-</label>
-
-<input
-type="number"
-id="years"
-placeholder="10">
-
-</div>
-
-<button
-id="compoundBtn"
-class="btn btn-primary">
-
-Calculate
-
-</button>
-
-<p
-id="compoundResult"
-class="result-box">
-
-Result appears here
-
-</p>
-
-</div>
+<!-- ===================================================== -->
 <!-- EMI Calculator -->
+<!-- ===================================================== -->
 
-<div class="glass-card">
+<div class="sim-card" id="emiCard">
 
-<h2>
+    <div class="card-top">
 
-🏦 EMI Calculator
+        <div class="icon">🏦</div>
 
-</h2>
+        <div>
 
-<p>
+            <h2>EMI Calculator</h2>
 
-Estimate your monthly EMI.
+            <p>Estimate your monthly loan repayment.</p>
 
-</p>
+        </div>
 
-<div class="form-group">
+    </div>
 
-<label>
+    <div class="input-group">
 
-Loan Amount
+        <label>Loan Amount</label>
 
-</label>
+        <input
+            id="loan"
+            type="number"
+            placeholder="₹1000000">
 
-<input
-type="number"
-id="loan"
-placeholder="500000">
+    </div>
 
-</div>
+    <div class="input-group">
 
-<div class="form-group">
+        <label>Interest Rate (%)</label>
 
-<label>
+        <input
+            id="loanRate"
+            type="number"
+            placeholder="8.5">
 
-Interest Rate %
+    </div>
 
-</label>
+    <div class="input-group">
 
-<input
-type="number"
-id="loanRate"
-placeholder="8.5">
+        <label>Loan Tenure (Years)</label>
 
-</div>
+        <input
+            id="loanYears"
+            type="number"
+            placeholder="20">
 
-<div class="form-group">
+    </div>
 
-<label>
+    <button
+        class="calculate-btn"
+        id="emiBtn">
 
-Loan Tenure (Years)
+        Calculate EMI
 
-</label>
+    </button>
 
-<input
-type="number"
-id="loanYears"
-placeholder="20">
+    <div class="result-card">
 
-</div>
+        <h4>Monthly EMI</h4>
 
-<button
-id="emiBtn"
-class="btn btn-primary">
+        <h2 id="emiResult">
 
-Calculate EMI
+            ₹0
 
-</button>
+        </h2>
 
-<p
-id="emiResult"
-class="result-box">
+        <canvas
+            id="emiChart"
+            height="170">
 
-Result appears here
+        </canvas>
 
-</p>
-
-</div>
-
-<!-- Savings Goal Planner -->
-
-<div class="glass-card">
-
-<h2>
-
-🎯 Savings Goal Planner
-
-</h2>
-
-<p>
-
-Plan your monthly savings goal.
-
-</p>
-
-<div class="form-group">
-
-<label>
-
-Target Amount
-
-</label>
-
-<input
-type="number"
-id="goalAmount"
-placeholder="1000000">
+    </div>
 
 </div>
 
-<div class="form-group">
+<!-- ===================================================== -->
+<!-- Savings Goal -->
+<!-- ===================================================== -->
 
-<label>
+<div class="sim-card" id="goalCard">
 
-Time (Months)
+    <div class="card-top">
 
-</label>
+        <div class="icon">🎯</div>
 
-<input
-type="number"
-id="goalMonths"
-placeholder="24">
+        <div>
+
+            <h2>Savings Goal</h2>
+
+            <p>Plan your monthly savings to achieve a target.</p>
+
+        </div>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Target Amount</label>
+
+        <input
+            id="goalAmount"
+            type="number"
+            placeholder="₹500000">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Months</label>
+
+        <input
+            id="goalMonths"
+            type="number"
+            placeholder="24">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="goalBtn">
+
+        Calculate Goal
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Monthly Saving Required</h4>
+
+        <h2 id="goalResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="goalChart"
+            height="170">
+
+        </canvas>
+
+    </div>
+
+</div>
+<!-- ===================================================== -->
+<!-- SIP Calculator -->
+<!-- ===================================================== -->
+
+<div class="sim-card" id="sipCard">
+
+    <div class="card-top">
+
+        <div class="icon">💹</div>
+
+        <div>
+
+            <h2>SIP Calculator</h2>
+
+            <p>Estimate the future value of your monthly investments.</p>
+
+        </div>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Monthly Investment</label>
+
+        <input
+            id="sipAmount"
+            type="number"
+            placeholder="₹5000">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Expected Return (%)</label>
+
+        <input
+            id="sipRate"
+            type="number"
+            placeholder="12">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Investment Years</label>
+
+        <input
+            id="sipYears"
+            type="number"
+            placeholder="20">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="sipBtn">
+
+        Calculate SIP
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Future Wealth</h4>
+
+        <h2 id="sipResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="sipChart"
+            height="170">
+
+        </canvas>
+
+    </div>
 
 </div>
 
-<button
-id="goalBtn"
-class="btn btn-primary">
+<!-- ===================================================== -->
+<!-- Inflation Calculator -->
+<!-- ===================================================== -->
 
-Calculate Saving
+<div class="sim-card" id="inflationCard">
 
-</button>
+    <div class="card-top">
 
-<p
-id="goalResult"
-class="result-box">
+        <div class="icon">📉</div>
 
-Result appears here
+        <div>
 
-</p>
+            <h2>Inflation Calculator</h2>
+
+            <p>Understand how inflation changes purchasing power.</p>
+
+        </div>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Today's Cost</label>
+
+        <input
+            id="todayCost"
+            type="number"
+            placeholder="₹100000">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Inflation Rate (%)</label>
+
+        <input
+            id="inflationRate"
+            type="number"
+            placeholder="6">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Years</label>
+
+        <input
+            id="inflationYears"
+            type="number"
+            placeholder="20">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="inflationBtn">
+
+        Calculate Inflation
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Future Cost</h4>
+
+        <h2 id="inflationResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="inflationChart"
+            height="170">
+
+        </canvas>
+
+    </div>
 
 </div>
 
+<!-- ===================================================== -->
+<!-- Net Worth Calculator -->
+<!-- ===================================================== -->
+
+<div class="sim-card" id="netWorthCard">
+
+    <div class="card-top">
+
+        <div class="icon">💼</div>
+
+        <div>
+
+            <h2>Net Worth</h2>
+
+            <p>Calculate your total financial position.</p>
+
+        </div>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Total Assets</label>
+
+        <input
+            id="assets"
+            type="number"
+            placeholder="₹1200000">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Total Liabilities</label>
+
+        <input
+            id="liabilities"
+            type="number"
+            placeholder="₹300000">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="netWorthBtn">
+
+        Calculate Net Worth
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Your Net Worth</h4>
+
+        <h2 id="netWorthResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="netWorthChart"
+            height="170">
+
+        </canvas>
+
+    </div>
+
 </div>
+
+<!-- ===================================================== -->
+<!-- Emergency Fund Planner -->
+<!-- ===================================================== -->
+
+<div class="sim-card" id="emergencyCard">
+
+    <div class="card-top">
+
+        <div class="icon">🛡️</div>
+
+        <div>
+
+            <h2>Emergency Fund</h2>
+
+            <p>Know how much emergency savings you should maintain.</p>
+
+        </div>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Monthly Expenses</label>
+
+        <input
+            id="monthlyExpense"
+            type="number"
+            placeholder="₹30000">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>Months of Safety</label>
+
+        <input
+            id="emergencyMonths"
+            type="number"
+            placeholder="6">
+
+    </div>
+
+    <button
+        class="calculate-btn"
+        id="emergencyBtn">
+
+        Calculate Fund
+
+    </button>
+
+    <div class="result-card">
+
+        <h4>Recommended Emergency Fund</h4>
+
+        <h2 id="emergencyResult">
+
+            ₹0
+
+        </h2>
+
+        <canvas
+            id="emergencyChart"
+            height="170">
+
+        </canvas>
+
+    </div>
 
 </div>
 
 </section>
+
+<!-- ===================================================== -->
+<!-- Live Analytics -->
+<!-- ===================================================== -->
+
+<section class="analytics">
+
+    <div class="section-heading">
+
+        <h2>Financial Analytics</h2>
+
+        <p>
+            Visualise your calculations and monitor your financial health.
+        </p>
+
+    </div>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+
+            <h3>Budget Breakdown</h3>
+
+            <canvas id="budgetChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <h3>Investment Growth</h3>
+
+            <canvas id="growthChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <h3>Financial Health</h3>
+
+            <canvas id="healthChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <h3>Goal Progress</h3>
+
+            <canvas id="progressChart"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- Achievements -->
+<!-- ===================================================== -->
+
+<section class="achievements">
+
+    <div class="section-heading">
+
+        <span class="section-tag">Achievements</span>
+
+        <h2>Level Up Your Financial Journey</h2>
+
+        <p>
+            Complete simulations to unlock badges and earn XP.
+        </p>
+
+    </div>
+
+    <div class="achievement-grid">
+
+        <div class="achievement-card locked" id="badgeBudget">
+
+            <div class="achievement-icon">💰</div>
+
+            <h3>Budget Master</h3>
+
+            <p>Create your first monthly budget.</p>
+
+        </div>
+
+        <div class="achievement-card locked" id="badgeInvestor">
+
+            <div class="achievement-icon">📈</div>
+
+            <h3>Investment Explorer</h3>
+
+            <p>Calculate compound growth.</p>
+
+        </div>
+
+        <div class="achievement-card locked" id="badgeLoan">
+
+            <div class="achievement-icon">🏦</div>
+
+            <h3>Loan Expert</h3>
+
+            <p>Complete an EMI simulation.</p>
+
+        </div>
+
+        <div class="achievement-card locked" id="badgeSavings">
+
+            <div class="achievement-icon">🎯</div>
+
+            <h3>Savings Champion</h3>
+
+            <p>Plan your savings goal.</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- Smart Financial Tips -->
+<!-- ===================================================== -->
+
+<section class="tips">
+
+    <div class="section-heading">
+
+        <span class="section-tag">Smart Tips</span>
+
+        <h2>Financial Wisdom</h2>
+
+    </div>
+
+    <div class="tips-grid">
+
+        <div class="tip-card">
+
+            <span>💡</span>
+
+            <h3>Save First</h3>
+
+            <p>
+                Save at least 20% of your monthly income before spending.
+            </p>
+
+        </div>
+
+        <div class="tip-card">
+
+            <span>📈</span>
+
+            <h3>Start Investing Early</h3>
+
+            <p>
+                Time is the biggest advantage in wealth creation.
+            </p>
+
+        </div>
+
+        <div class="tip-card">
+
+            <span>🛡️</span>
+
+            <h3>Emergency Fund</h3>
+
+            <p>
+                Maintain 6 months of expenses as a safety cushion.
+            </p>
+
+        </div>
+
+        <div class="tip-card">
+
+            <span>💳</span>
+
+            <h3>Control Debt</h3>
+
+            <p>
+                Avoid unnecessary high-interest borrowing.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- Continue Learning -->
+<!-- ===================================================== -->
+
+<section class="learning">
+
+    <div class="section-heading">
+
+        <span class="section-tag">Continue Learning</span>
+
+        <h2>Explore Financial Concepts</h2>
+
+    </div>
+
+    <div class="learning-grid">
+
+        <a href="modules.html" class="learn-card">
+
+            <h3>Budgeting</h3>
+
+            <p>Master personal finance fundamentals.</p>
+
+        </a>
+
+        <a href="modules.html" class="learn-card">
+
+            <h3>Investing</h3>
+
+            <p>Learn how wealth grows over time.</p>
+
+        </a>
+
+        <a href="modules.html" class="learn-card">
+
+            <h3>Banking</h3>
+
+            <p>Understand savings, loans and credit.</p>
+
+        </a>
+
+        <a href="modules.html" class="learn-card">
+
+            <h3>Mutual Funds</h3>
+
+            <p>Discover long-term investment strategies.</p>
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- Premium CTA -->
+<!-- ===================================================== -->
+
+<section class="cta">
+
+    <div class="cta-box">
+
+        <h2>
+
+            Ready to Become Financially Smarter?
+
+        </h2>
+
+        <p>
+
+            Continue learning through interactive lessons,
+            quizzes and real-world simulations.
+
+        </p>
+
+        <a
+            href="modules.html"
+            class="primary-btn">
+
+            Continue Learning
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- Footer -->
+<!-- ===================================================== -->
 
 <footer class="footer">
 
-<div class="container">
+    <div class="footer-top">
 
-<h2>
+        <div>
 
-FinVerse Financial Lab
+            <h2>FinVerse</h2>
 
-</h2>
+            <p>
 
-<p>
+                Learn. Simulate. Grow.
 
-Practice budgeting, investing and planning with interactive finance tools.
+            </p>
 
-</p>
+        </div>
 
-<div class="footer-links">
+        <div>
 
-<a href="index.html">Home</a>
+            <h4>Explore</h4>
 
-<a href="quiz.html">Quiz</a>
+            <a href="index.html">Home</a>
+            <a href="modules.html">Modules</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="progress.html">Progress</a>
 
-<a href="progress.html">Progress</a>
+        </div>
 
-<a href="simulators.html">Financial Lab</a>
+        <div>
 
-</div>
+            <h4>Financial Lab</h4>
 
-<p class="copyright">
+            <a href="#budgetCard">Budget Planner</a>
+            <a href="#compoundCard">Compound Interest</a>
+            <a href="#emiCard">EMI Calculator</a>
+            <a href="#goalCard">Savings Goal</a>
 
-© 2026 FinVerse. All Rights Reserved.
+        </div>
 
-</p>
+    </div>
 
-</div>
+    <div class="footer-bottom">
+
+        © 2026 FinVerse • Built for Financial Literacy
+
+    </div>
 
 </footer>
 
 <script src="js/main.js"></script>
-
 <script src="js/simulators.js"></script>
 
 </body>
