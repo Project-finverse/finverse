@@ -1930,3 +1930,164 @@ translateY(-6px)
 scale(1.08);
 
 }
+/* ==========================================================
+   Premium Glass Effects
+========================================================== */
+
+.sim-card{
+
+isolation:isolate;
+
+}
+
+.sim-card::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+border-radius:inherit;
+
+padding:1px;
+
+background:linear-gradient(
+135deg,
+rgba(79,209,255,.45),
+rgba(124,92,255,.25),
+rgba(255,95,210,.45));
+
+-webkit-mask:
+linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+
+-webkit-mask-composite:xor;
+
+mask-composite:exclude;
+
+opacity:0;
+
+transition:.45s;
+
+}
+
+.sim-card:hover::before{
+
+opacity:1;
+
+}
+
+/* ==========================
+   Animated Background Grid
+========================== */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+
+radial-gradient(circle at 20% 20%,
+rgba(79,209,255,.05),
+transparent 30%),
+
+radial-gradient(circle at 80% 30%,
+rgba(124,92,255,.05),
+transparent 30%),
+
+radial-gradient(circle at 50% 90%,
+rgba(255,95,210,.05),
+transparent 30%);
+
+animation:backgroundMove 20s linear infinite;
+
+pointer-events:none;
+
+z-index:-3;
+
+}
+
+@keyframes backgroundMove{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-60px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ==========================
+   Neon Titles
+========================== */
+
+.hero h1{
+
+text-shadow:
+
+0 0 30px rgba(79,209,255,.15);
+
+}
+
+.section-heading h2{
+
+text-shadow:
+
+0 0 25px rgba(124,92,255,.18);
+
+}
+
+/* ==========================
+   Premium Scrollbar
+========================== */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#030712;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:linear-gradient(
+180deg,
+#4FD1FF,
+#7C5CFF,
+#FF5FD2);
+
+border-radius:20px;
+
+}
+
+/* Firefox */
+
+*{
+
+scrollbar-width:thin;
+
+scrollbar-color:#4FD1FF #030712;
+
+}
