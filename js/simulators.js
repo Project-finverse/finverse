@@ -1292,3 +1292,118 @@ topButton.addEventListener("click", () => {
 /* ==========================================================
    End of File
 ========================================================== */
+/* ==========================================================
+   Premium Card Tilt Effect
+========================================================== */
+
+document.querySelectorAll(".sim-card").forEach(card=>{
+
+card.addEventListener("mousemove",(e)=>{
+
+const rect=card.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+
+const y=e.clientY-rect.top;
+
+const rotateX=((y-rect.height/2)/18);
+
+const rotateY=((rect.width/2-x)/18);
+
+card.style.transform=
+`
+perspective(1200px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+translateY(-10px)
+`;
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform="";
+
+});
+
+});
+
+/* ==========================================================
+   Ripple Button Effect
+========================================================== */
+
+document.querySelectorAll(".calculate-btn").forEach(btn=>{
+
+btn.addEventListener("click",(e)=>{
+
+const ripple=document.createElement("span");
+
+const rect=btn.getBoundingClientRect();
+
+const size=Math.max(rect.width,rect.height);
+
+ripple.style.width=size+"px";
+
+ripple.style.height=size+"px";
+
+ripple.style.left=
+e.clientX-rect.left-size/2+"px";
+
+ripple.style.top=
+e.clientY-rect.top-size/2+"px";
+
+ripple.className="ripple";
+
+btn.appendChild(ripple);
+
+setTimeout(()=>{
+
+ripple.remove();
+
+},700);
+
+});
+
+});
+
+/* ==========================================================
+   Auto Number Counter
+========================================================== */
+
+document.querySelectorAll(".stat-card h2").forEach(counter=>{
+
+const target=counter.innerText;
+
+const numeric=parseInt(target.replace(/\D/g,""));
+
+if(isNaN(numeric)) return;
+
+let current=0;
+
+const timer=setInterval(()=>{
+
+current+=Math.ceil(numeric/40);
+
+if(current>=numeric){
+
+current=numeric;
+
+clearInterval(timer);
+
+}
+
+counter.innerHTML=target.replace(numeric,current);
+
+},30);
+
+});
+
+/* ==========================================================
+   Welcome Animation
+========================================================== */
+
+window.addEventListener("load",()=>{
+
+document.body.classList.add("loaded");
+
+});
