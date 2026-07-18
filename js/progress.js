@@ -221,3 +221,98 @@ unlockAchievements();
 renderAchievements();
 
 });
+/* ==========================================================
+   Charts
+========================================================== */
+
+function loadCharts(){
+
+const xpCanvas=document.getElementById("xpChart");
+
+const moduleCanvas=document.getElementById("moduleChart");
+
+if(!xpCanvas || !moduleCanvas){
+
+return;
+
+}
+
+new Chart(xpCanvas,{
+
+type:"line",
+
+data:{
+
+labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+
+datasets:[{
+
+label:"XP",
+
+data:[15,40,35,60,75,90,progressData.xp],
+
+borderWidth:3,
+
+tension:.4,
+
+fill:true
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+display:false
+
+}
+
+}
+
+}
+
+});
+
+new Chart(moduleCanvas,{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+
+"Completed",
+
+"Remaining"
+
+],
+
+datasets:[{
+
+data:[
+
+progressData.level,
+
+10-progressData.level
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+}
