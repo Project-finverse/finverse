@@ -2091,3 +2091,61 @@ scrollbar-width:thin;
 scrollbar-color:#4FD1FF #030712;
 
 }
+/* =====================================
+   Report
+===================================== */
+
+.report-section{
+
+width:min(1200px,92%);
+
+margin:120px auto;
+
+}
+
+.report-card{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:25px;
+
+padding:40px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(25px);
+
+}
+
+.report-item{
+
+padding:25px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.04);
+
+}
+
+.report-item span{
+
+color:var(--muted);
+
+display:block;
+
+margin-bottom:10px;
+
+}
+
+.report-item h2{
+
+font-size:2rem;
+
+}
