@@ -1,331 +1,338 @@
-/* ==========================================================
-   FinVerse Financial Lab
-========================================================== */
+<!DOCTYPE html>
+<html lang="en">
 
-/* ==========================================================
-   Currency Formatter
-========================================================== */
+<head>
 
-function formatINR(value){
+    <meta charset="UTF-8">
 
-    return new Intl.NumberFormat(
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        "en-IN",
+    <title>Financial Lab | FinVerse</title>
 
-        {
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
 
-            style:"currency",
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-            currency:"INR",
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-            maximumFractionDigits:0
+</head>
 
-        }
+<body>
 
-    ).format(value);
+<header class="navbar">
 
-}
+    <div class="container nav-container">
 
+        <a href="index.html" class="logo">
 
+            <span>FinVerse</span>
 
-/* ==========================================================
-   Budget Planner
-========================================================== */
+        </a>
 
-function calculateBudget(){
+        <nav>
 
-    const income =
+            <ul class="nav-links">
 
-    Number(document.getElementById("income")?.value);
+                <li><a href="index.html">Home</a></li>
+                <li><a href="modules.html">Modules</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="simulators.html" class="active">Financial Lab</a></li>
 
-    const expenses =
+            </ul>
 
-    Number(document.getElementById("expenses")?.value);
+        </nav>
 
-    const output =
+    </div>
 
-    document.getElementById("budgetResult");
+</header>
 
+<section class="hero hero-small">
 
+    <div class="container">
 
-    if(!output) return;
+        <span class="hero-badge">
 
+            💰 Financial Lab
 
+        </span>
 
-    if(isNaN(income) || isNaN(expenses)){
+        <h1>
 
-        output.textContent =
+            Interactive
 
-        "Please enter valid values.";
+            <span class="gradient-text">
 
-        return;
+                Financial Simulators
 
-    }
+            </span>
 
+        </h1>
 
+        <p>
 
-    const savings = income - expenses;
+            Experiment with real financial situations using calculators designed
+            to help you understand budgeting, investing, loans and savings.
 
+        </p>
 
+    </div>
 
-    output.textContent =
+</section>
 
-    "Estimated Savings: " +
+<section class="section">
 
-    formatINR(savings);
+<div class="container">
 
+<div class="grid-2">
 
+<!-- Budget Planner -->
 
-    if(typeof addXP==="function"){
+<div class="glass-card">
 
-        addXP(5);
+<h2>📒 Budget Planner</h2>
 
-    }
+<p>Calculate your monthly savings.</p>
 
-}
+<div class="form-group">
 
+<label>Monthly Income (₹)</label>
 
+<input
+type="number"
+id="income"
+placeholder="50000">
 
-/* ==========================================================
-   Compound Interest
-========================================================== */
+</div>
 
-function calculateCompound(){
+<div class="form-group">
 
-    const principal =
+<label>Monthly Expenses (₹)</label>
 
-    Number(document.getElementById("principal")?.value);
+<input
+type="number"
+id="expenses"
+placeholder="30000">
 
-    const rate =
+</div>
 
-    Number(document.getElementById("rate")?.value)/100;
+<button
+id="budgetBtn"
+class="btn btn-primary">
 
-    const years =
+Calculate Savings
 
-    Number(document.getElementById("years")?.value);
+</button>
 
+<p
+id="budgetResult"
+class="result-box">
 
+Result appears here
 
-    const output =
+</p>
 
-    document.getElementById("compoundResult");
+</div>
 
+<!-- Compound Interest -->
 
+<div class="glass-card">
 
-    if(!output) return;
+<h2>📈 Compound Interest</h2>
 
+<p>See how your investments grow.</p>
 
+<div class="form-group">
 
-    if(isNaN(principal) ||
+<label>Principal Amount (₹)</label>
 
-       isNaN(rate) ||
+<input
+type="number"
+id="principal"
+placeholder="100000">
 
-       isNaN(years)){
+</div>
 
-        output.textContent =
+<div class="form-group">
 
-        "Please enter valid values.";
+<label>Annual Interest Rate (%)</label>
 
-        return;
+<input
+type="number"
+id="rate"
+placeholder="12">
 
-    }
+</div>
 
+<div class="form-group">
 
+<label>Years</label>
 
-    const future =
+<input
+type="number"
+id="years"
+placeholder="10">
 
-    principal *
+</div>
 
-    Math.pow(
+<button
+id="compoundBtn"
+class="btn btn-primary">
 
-        1 + rate,
+Calculate
 
-        years
+</button>
 
-    );
+<p
+id="compoundResult"
+class="result-box">
 
+Result appears here
 
+</p>
 
-    output.textContent =
+</div>
 
-    "Future Value: " +
+<!-- EMI Calculator -->
 
-    formatINR(future);
+<div class="glass-card">
 
+<h2>🏦 EMI Calculator</h2>
 
+<p>Estimate your monthly loan EMI.</p>
 
-    if(typeof addXP==="function"){
+<div class="form-group">
 
-        addXP(5);
+<label>Loan Amount (₹)</label>
 
-    }
+<input
+type="number"
+id="loan"
+placeholder="500000">
 
-}
-/* ==========================================================
-   EMI Calculator
-========================================================== */
+</div>
 
-function calculateEMI() {
+<div class="form-group">
 
-    const loan = Number(document.getElementById("loan")?.value);
-    const rate = Number(document.getElementById("loanRate")?.value) / 1200;
-    const years = Number(document.getElementById("loanYears")?.value);
+<label>Interest Rate (%)</label>
 
-    const output = document.getElementById("emiResult");
+<input
+type="number"
+id="loanRate"
+placeholder="8.5">
 
-    if (!output) return;
+</div>
 
-    if (isNaN(loan) || isNaN(rate) || isNaN(years) ||
-        loan <= 0 || years <= 0) {
+<div class="form-group">
 
-        output.textContent = "Please enter valid values.";
-        return;
-    }
+<label>Loan Tenure (Years)</label>
 
-    const months = years * 12;
+<input
+type="number"
+id="loanYears"
+placeholder="20">
 
-    const emi =
-        (loan * rate * Math.pow(1 + rate, months)) /
-        (Math.pow(1 + rate, months) - 1);
+</div>
 
-    output.textContent =
-        "Monthly EMI: " + formatINR(Math.round(emi));
+<button
+id="emiBtn"
+class="btn btn-primary">
 
-    if (typeof addXP === "function") {
+Calculate EMI
 
-        addXP(5);
+</button>
 
-    }
+<p
+id="emiResult"
+class="result-box">
 
-    saveSimulationData();
+Result appears here
 
-}
+</p>
 
+</div>
 
+<!-- Savings Goal Planner -->
 
-/* ==========================================================
-   Savings Goal Planner
-========================================================== */
+<div class="glass-card">
 
-function calculateGoal() {
+<h2>🎯 Savings Goal Planner</h2>
 
-    const goal =
-        Number(document.getElementById("goalAmount")?.value);
+<p>Find how much you need to save every month.</p>
 
-    const months =
-        Number(document.getElementById("goalMonths")?.value);
+<div class="form-group">
 
-    const output =
-        document.getElementById("goalResult");
+<label>Target Amount (₹)</label>
 
-    if (!output) return;
+<input
+type="number"
+id="goalAmount"
+placeholder="1000000">
 
-    if (isNaN(goal) || isNaN(months) ||
-        goal <= 0 || months <= 0) {
+</div>
 
-        output.textContent = "Please enter valid values.";
-        return;
-    }
+<div class="form-group">
 
-    const monthly = goal / months;
+<label>Duration (Months)</label>
 
-    output.textContent =
-        "Monthly Saving Required: " +
-        formatINR(Math.ceil(monthly));
+<input
+type="number"
+id="goalMonths"
+placeholder="24">
 
-    if (typeof addXP === "function") {
+</div>
 
-        addXP(5);
+<button
+id="goalBtn"
+class="btn btn-primary">
 
-    }
+Calculate Monthly Saving
 
-    saveSimulationData();
+</button>
 
-}
+<p
+id="goalResult"
+class="result-box">
 
+Result appears here
 
+</p>
 
-/* ==========================================================
-   Save & Restore
-========================================================== */
+</div>
 
-function saveSimulationData() {
+</div>
 
-    const data = {
+</div>
 
-        income: document.getElementById("income")?.value || "",
+</section>
 
-        expenses: document.getElementById("expenses")?.value || "",
+<footer class="footer">
 
-        principal: document.getElementById("principal")?.value || "",
+<div class="container">
 
-        rate: document.getElementById("rate")?.value || "",
+<h2>FinVerse Financial Lab</h2>
 
-        years: document.getElementById("years")?.value || "",
+<p>
 
-        loan: document.getElementById("loan")?.value || "",
+Practice. Learn. Invest. Grow.
 
-        loanRate: document.getElementById("loanRate")?.value || "",
+</p>
 
-        loanYears: document.getElementById("loanYears")?.value || "",
+<p>
 
-        goalAmount: document.getElementById("goalAmount")?.value || "",
+© 2026 FinVerse. All Rights Reserved.
 
-        goalMonths: document.getElementById("goalMonths")?.value || ""
+</p>
 
-    };
+</div>
 
-    localStorage.setItem(
-        "finverseSimulations",
-        JSON.stringify(data)
-    );
+</footer>
 
-}
+<script src="js/main.js"></script>
+<script src="js/simulators.js"></script>
 
+</body>
 
-
-function restoreSimulationData() {
-
-    const saved = JSON.parse(
-        localStorage.getItem("finverseSimulations")
-    );
-
-    if (!saved) return;
-
-    Object.keys(saved).forEach(id => {
-
-        const element = document.getElementById(id);
-
-        if (element) {
-
-            element.value = saved[id];
-
-        }
-
-    });
-
-}
-
-
-
-/* ==========================================================
-   Event Listeners
-========================================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    restoreSimulationData();
-
-    document.getElementById("budgetBtn")
-        ?.addEventListener("click", calculateBudget);
-
-    document.getElementById("compoundBtn")
-        ?.addEventListener("click", calculateCompound);
-
-    document.getElementById("emiBtn")
-        ?.addEventListener("click", calculateEMI);
-
-    document.getElementById("goalBtn")
-        ?.addEventListener("click", calculateGoal);
- 
-});
+</html>
