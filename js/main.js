@@ -290,3 +290,124 @@ topButton.addEventListener("click", () => {
     });
 
 });
+/* ==========================================================
+   Scroll Reveal Animation
+========================================================== */
+
+const revealObserver = new IntersectionObserver(
+
+(entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("revealed");
+
+}
+
+});
+
+},
+
+{
+
+threshold:0.15
+
+}
+
+);
+
+document
+
+.querySelectorAll(
+
+".card,.feature,.section-header,.hero-stats"
+
+)
+
+.forEach(el=>{
+
+revealObserver.observe(el);
+
+});
+
+
+
+/* ==========================================================
+   Navbar Blur
+========================================================== */
+
+const nav=document.querySelector(".nav");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>50){
+
+nav.classList.add("nav-scrolled");
+
+}
+
+else{
+
+nav.classList.remove("nav-scrolled");
+
+}
+
+});
+
+
+
+/* ==========================================================
+   Floating Mouse Glow
+========================================================== */
+
+const glow=document.createElement("div");
+
+glow.className="cursor-glow";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",(e)=>{
+
+glow.style.left=e.clientX+"px";
+
+glow.style.top=e.clientY+"px";
+
+});
+
+
+
+/* ==========================================================
+   Smooth Anchor Scroll
+========================================================== */
+
+document
+
+.querySelectorAll('a[href^="#"]')
+
+.forEach(anchor=>{
+
+anchor.addEventListener("click",(e)=>{
+
+const target=document.querySelector(
+
+anchor.getAttribute("href")
+
+);
+
+if(target){
+
+e.preventDefault();
+
+target.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+
+});
+
+});
