@@ -1,1022 +1,163 @@
-<!DOCTYPE html>
+/* ==========================================================
+   FinVerse Financial Lab
+========================================================== */
 
-<html lang="en">
+/* ==========================================================
+   Currency Formatter
+========================================================== */
 
-<head>
+function formatINR(value){
 
-<meta charset="UTF-8">
+    return new Intl.NumberFormat(
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+        "en-IN",
 
-<title>Financial Lab • FinVerse</title>
+        {
 
-<meta name="theme-color"
-content="#07111F">
+            style:"currency",
 
-<meta name="description"
-content="Practice financial concepts with interactive simulators and calculators.">
+            currency:"INR",
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+            maximumFractionDigits:0
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
+    ).format(value);
 
-<link rel="stylesheet"
-href="css/variables.css">
+}
 
-<link rel="stylesheet"
-href="css/animations.css">
 
-<link rel="stylesheet"
-href="css/components.css">
 
-<link rel="stylesheet"
-href="css/style.css">
+/* ==========================================================
+   Budget Planner
+========================================================== */
 
-<link rel="stylesheet"
-href="css/responsive.css">
+function calculateBudget(){
 
-</head>
+    const income =
 
-<body>
+    Number(document.getElementById("income")?.value);
 
-<div class="bg-gradient"></div>
+    const expenses =
 
-<div class="bg-grid"></div>
+    Number(document.getElementById("expenses")?.value);
 
-<div class="bg-orbs">
+    const output =
 
-<div class="orb orb-1"></div>
+    document.getElementById("budgetResult");
 
-<div class="orb orb-2"></div>
 
-<div class="orb orb-3"></div>
 
-</div>
+    if(!output) return;
 
 
 
-<header class="nav">
+    if(isNaN(income) || isNaN(expenses)){
 
-<div class="nav-container">
+        output.textContent =
 
-<a href="index.html"
+        "Please enter valid values.";
 
-class="nav-logo">
+        return;
 
-<span class="logo-icon">
+    }
 
-₹
 
-</span>
 
-<span class="logo-text">
+    const savings = income - expenses;
 
-Fin<span class="accent">
 
-Verse
 
-</span>
+    output.textContent =
 
-</span>
+    "Estimated Savings: " +
 
-</a>
+    formatINR(savings);
 
-<nav class="nav-links">
 
-<a href="modules.html">
 
-Modules
+    if(typeof addXP==="function"){
 
-</a>
+        addXP(5);
 
-<a href="progress.html">
+    }
 
-Progress
+}
 
-</a>
 
-<a href="simulators.html">
 
-Financial Lab
+/* ==========================================================
+   Compound Interest
+========================================================== */
 
-</a>
+function calculateCompound(){
 
-<a href="pricing.html">
+    const principal =
 
-Pricing
+    Number(document.getElementById("principal")?.value);
 
-</a>
+    const rate =
 
-</nav>
+    Number(document.getElementById("rate")?.value)/100;
 
-<div class="nav-actions">
+    const years =
 
-<a href="progress.html"
+    Number(document.getElementById("years")?.value);
 
-class="btn btn-glass">
 
-Dashboard
 
-</a>
+    const output =
 
-<a href="#"
+    document.getElementById("compoundResult");
 
-class="btn btn-primary">
 
-6 Tools
 
-</a>
+    if(!output) return;
 
-</div>
 
-</div>
 
-</header>
+    if(isNaN(principal) ||
 
+       isNaN(rate) ||
 
+       isNaN(years)){
 
-<section class="hero">
+        output.textContent =
 
-<div class="container">
+        "Please enter valid values.";
 
-<div class="hero-badge">
+        return;
 
-🧪 Interactive Financial Lab
+    }
 
-</div>
 
-<h1 class="hero-title">
 
-Experiment.
+    const future =
 
-Learn.
+    principal *
 
-<span class="gradient-text">
+    Math.pow(
 
-Grow.
+        1 + rate,
 
-</span>
+        years
 
-</h1>
+    );
 
-<p class="hero-desc">
 
-Use real financial calculators,
-interactive simulations,
-and practical tools to understand
-how money works in everyday life.
 
-</p>
+    output.textContent =
 
-<div class="hero-stats">
+    "Future Value: " +
 
-<div class="stat">
+    formatINR(future);
 
-<h3>
 
-6
 
-</h3>
+    if(typeof addXP==="function"){
 
-<p>
+        addXP(5);
 
-Tools
+    }
 
-</p>
-
-</div>
-
-<div class="stat">
-
-<h3>
-
-100%
-
-</h3>
-
-<p>
-
-Interactive
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h3>
-
-Live
-
-</h3>
-
-<p>
-
-Calculations
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h3>
-
-∞
-
-</h3>
-
-<p>
-
-Experiments
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-header">
-
-<span class="eyebrow">
-
-🚀 Featured Simulators
-
-</span>
-
-<h2 class="section-title">
-
-Choose Your
-
-<span class="gradient-text">
-
-Financial Tool
-
-</span>
-
-</h2>
-
-<p class="section-sub">
-
-Every simulator is designed to help you
-understand a real financial concept
-through hands-on learning.
-
-</p>
-
-</div>
-
-<div class="features-grid">
-
-<div class="feature">
-
-<div class="feature-icon">
-
-💰
-
-</div>
-
-<h3>
-
-Budget Planner
-
-</h3>
-
-<p>
-
-Track income, expenses,
-and monthly savings.
-
-</p>
-
-<a href="#budget"
-
-class="btn btn-primary">
-
-Open Tool
-
-</a>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-
-📈
-
-</div>
-
-<h3>
-
-Compound Interest
-
-</h3>
-
-<p>
-
-See how investments grow
-over time.
-
-</p>
-
-<a href="#compound"
-
-class="btn btn-primary">
-
-Open Tool
-
-</a>
-
-</div>
-
-<div class="feature">
-
-<div class="feature-icon">
-
-🏦
-
-</div>
-
-<h3>
-
-EMI Calculator
-
-</h3>
-
-<p>
-
-Estimate monthly loan payments
-instantly.
-
-</p>
-
-<a href="#emi"
-
-class="btn btn-primary">
-
-Open Tool
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-<!-- BUDGET PLANNER -->
-
-<section class="section" id="budget">
-
-    <div class="container">
-
-        <div class="card card-featured">
-
-            <div class="card-icon">
-
-                💰
-
-            </div>
-
-            <h2>
-
-                Smart Budget Planner
-
-            </h2>
-
-            <p>
-
-                Enter your monthly income and expenses to
-                instantly estimate your savings.
-
-            </p>
-
-            <div class="dashboard-grid">
-
-                <div>
-
-                    <label>Monthly Income (₹)</label>
-
-                    <input type="number"
-
-                    id="income"
-
-                    class="input"
-
-                    placeholder="50000">
-
-                </div>
-
-                <div>
-
-                    <label>Monthly Expenses (₹)</label>
-
-                    <input type="number"
-
-                    id="expenses"
-
-                    class="input"
-
-                    placeholder="30000">
-
-                </div>
-
-            </div>
-
-            <div class="hero-cta">
-
-                <button
-
-                id="budgetBtn"
-
-                class="btn btn-primary">
-
-                    Calculate Savings
-
-                </button>
-
-            </div>
-
-            <h3 id="budgetResult">
-
-                Estimated Savings: ₹0
-
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- COMPOUND INTEREST -->
-
-<section class="section" id="compound">
-
-    <div class="container">
-
-        <div class="card">
-
-            <div class="card-icon">
-
-                📈
-
-            </div>
-
-            <h2>
-
-                Compound Interest Calculator
-
-            </h2>
-
-            <p>
-
-                Discover how your investments grow over time.
-
-            </p>
-
-            <div class="dashboard-grid">
-
-                <div>
-
-                    <label>Investment (₹)</label>
-
-                    <input
-
-                    type="number"
-
-                    id="principal"
-
-                    class="input"
-
-                    placeholder="10000">
-
-                </div>
-
-                <div>
-
-                    <label>Interest Rate (%)</label>
-
-                    <input
-
-                    type="number"
-
-                    id="rate"
-
-                    class="input"
-
-                    placeholder="12">
-
-                </div>
-
-                <div>
-
-                    <label>Years</label>
-
-                    <input
-
-                    type="number"
-
-                    id="years"
-
-                    class="input"
-
-                    placeholder="10">
-
-                </div>
-
-            </div>
-
-            <div class="hero-cta">
-
-                <button
-
-                id="compoundBtn"
-
-                class="btn btn-primary">
-
-                    Calculate Growth
-
-                </button>
-
-            </div>
-
-            <h3 id="compoundResult">
-
-                Future Value: ₹0
-
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- EMI CALCULATOR -->
-
-<section class="section" id="emi">
-
-    <div class="container">
-
-        <div class="card">
-
-            <div class="card-icon">
-
-                🏦
-
-            </div>
-
-            <h2>
-
-                EMI Calculator
-
-            </h2>
-
-            <p>
-
-                Estimate your monthly loan repayments.
-
-            </p>
-
-            <div class="dashboard-grid">
-
-                <div>
-
-                    <label>Loan Amount (₹)</label>
-
-                    <input
-
-                    type="number"
-
-                    id="loan"
-
-                    class="input"
-
-                    placeholder="500000">
-
-                </div>
-
-                <div>
-
-                    <label>Interest Rate (%)</label>
-
-                    <input
-
-                    type="number"
-
-                    id="loanRate"
-
-                    class="input"
-
-                    placeholder="9">
-
-                </div>
-
-                <div>
-
-                    <label>Loan Tenure (Years)</label>
-
-                    <input
-
-                    type="number"
-
-                    id="loanYears"
-
-                    class="input"
-
-                    placeholder="20">
-
-                </div>
-
-            </div>
-
-            <div class="hero-cta">
-
-                <button
-
-                id="emiBtn"
-
-                class="btn btn-primary">
-
-                    Calculate EMI
-
-                </button>
-
-            </div>
-
-            <h3 id="emiResult">
-
-                Monthly EMI: ₹0
-
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-<!-- SAVINGS GOAL PLANNER -->
-
-<section class="section" id="goals">
-
-    <div class="container">
-
-        <div class="dashboard-grid">
-
-            <div class="card card-featured">
-
-                <div class="card-icon">
-
-                    🎯
-
-                </div>
-
-                <h2>
-
-                    Savings Goal Planner
-
-                </h2>
-
-                <p>
-
-                    Plan a savings target and estimate
-                    how much you need to save every month.
-
-                </p>
-
-                <div class="dashboard-grid">
-
-                    <div>
-
-                        <label>Target Amount (₹)</label>
-
-                        <input
-                        type="number"
-                        id="goalAmount"
-                        class="input"
-                        placeholder="200000">
-
-                    </div>
-
-                    <div>
-
-                        <label>Months</label>
-
-                        <input
-                        type="number"
-                        id="goalMonths"
-                        class="input"
-                        placeholder="24">
-
-                    </div>
-
-                </div>
-
-                <div class="hero-cta">
-
-                    <button
-                    id="goalBtn"
-                    class="btn btn-primary">
-
-                        Calculate Goal
-
-                    </button>
-
-                </div>
-
-                <h3 id="goalResult">
-
-                    Monthly Saving Required: ₹0
-
-                </h3>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-icon">
-
-                    📉
-
-                </div>
-
-                <h2>
-
-                    Inflation Simulator
-
-                </h2>
-
-                <p>
-
-                    Understand how inflation can reduce
-                    the purchasing power of your money.
-
-                </p>
-
-                <div class="hero-stats">
-
-                    <div class="stat">
-
-                        <h3>₹100</h3>
-
-                        <p>Today</p>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <h3>₹82</h3>
-
-                        <p>After Inflation</p>
-
-                    </div>
-
-                    <div class="stat">
-
-                        <h3>5%</h3>
-
-                        <p>Inflation</p>
-
-                    </div>
-
-                </div>
-
-                <p style="margin-top:20px;">
-
-                    Investing wisely can help your money
-                    grow faster than inflation over time.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- AI COACH PREVIEW -->
-
-<section class="section">
-
-    <div class="container">
-
-        <div class="card card-featured">
-
-            <div class="card-icon">
-
-                🤖
-
-            </div>
-
-            <h2>
-
-                FinVerse AI Coach
-
-            </h2>
-
-            <p>
-
-                Coming soon: an intelligent finance mentor
-                that explains concepts, answers questions,
-                and recommends lessons based on your learning progress.
-
-            </p>
-
-            <div class="hero-cta">
-
-                <a href="modules.html"
-
-                class="btn btn-primary">
-
-                    Continue Learning
-
-                </a>
-
-                <a href="progress.html"
-
-                class="btn btn-glass">
-
-                    View Dashboard
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- CTA -->
-
-<section class="cta-section">
-
-    <div class="container">
-
-        <div class="cta-card">
-
-            <span class="badge">
-
-                🚀 Practice Makes Progress
-
-            </span>
-
-            <h2>
-
-                Learn It.
-
-                Practice It.
-
-                <span class="gradient-text">
-
-                    Master It.
-
-                </span>
-
-            </h2>
-
-            <p>
-
-                Use the Financial Lab regularly to strengthen
-                your decision-making skills with hands-on practice.
-
-            </p>
-
-            <div class="hero-cta">
-
-                <a href="modules.html"
-
-                class="btn btn-primary btn-lg">
-
-                    Explore More Modules
-
-                </a>
-
-                <a href="quiz.html"
-
-                class="btn btn-glass btn-lg">
-
-                    Test Your Knowledge
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- FOOTER -->
-
-<footer class="footer">
-
-    <div class="container footer-grid">
-
-        <div>
-
-            <div class="nav-logo">
-
-                <span class="logo-icon">₹</span>
-
-                <span class="logo-text">
-
-                    Fin<span class="accent">Verse</span>
-
-                </span>
-
-            </div>
-
-            <p class="footer-tag">
-
-                Learn. Practice. Earn. Lead.
-
-            </p>
-
-        </div>
-
-        <div>
-
-            <h4>Tools</h4>
-
-            <a href="#budget">Budget Planner</a>
-            <a href="#compound">Compound Interest</a>
-            <a href="#emi">EMI Calculator</a>
-            <a href="#goals">Savings Planner</a>
-
-        </div>
-
-        <div>
-
-            <h4>Learning</h4>
-
-            <a href="modules.html">Modules</a>
-            <a href="progress.html">Progress</a>
-            <a href="quiz.html">Quiz</a>
-
-        </div>
-
-        <div>
-
-            <h4>Connect</h4>
-
-            <a href="#">📧 hello@finverse.in</a>
-            <a href="#">💼 LinkedIn</a>
-            <a href="#">📸 Instagram</a>
-            <a href="#">▶️ YouTube</a>
-
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-
-        © 2026 <strong>FinVerse</strong>.
-        Built with ❤️ in India by
-        <strong>Saksham Gupta</strong> &
-        <strong>Archit Jain</strong>.
-
-    </div>
-
-</footer>
-
-<script src="js/main.js"></script>
-<script src="js/simulators.js"></script>
-
-</body>
-
-</html>
+}
